@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\DeskController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 })->name('welcome');
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -40,14 +41,30 @@ Route::get('redirect/{provider}', [SocialController::class, 'redirectToProvider'
 Route::get('auth/{provider}/callback', [SocialController::class, 'callbackProvider'])->name('auth.login.provider.callback');
 
 
-//Role And Permission Routes
-
-Route::group(['prefix' => 'panel', 'middleware' => 'role:admin'], function () {
+Route::group(['prefix' => 'setting', 'middleware' => 'role:admin'], function () {
+    //Role And Permission Routes
+    //Users Setting
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::post('/users/{user}/edit', [UserController::class, 'update'])->name('users.update');
+    //Roles Setting
     Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
     Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
     Route::post('/roles/{role}/edit', [RoleController::class, 'update'])->name('roles.update');
+    //End Of Role And Permission
+
+
+    // General Settings
+
+    Route::get('/general', [DeskController::class, 'setting'])->name('desks.setting');
 });
+
+
+//Desk Routes
+
+Route::get('/desks/create', [DeskController::class, 'create'])->name('desks.create');
+Route::post('/desks/create', [DeskController::class, 'store'])->name('desks.store');
+Route::get('desks/select/{desk}', [DeskController::class, 'select'])->name('desks.select');
+Route::post('desks/select/{desk}', [DeskController::class, 'update'])->name('desks.update');
+Route::post('desks/send-request/{desk}', [DeskController::class, 'SendRequest'])->name('desks.Send.request');

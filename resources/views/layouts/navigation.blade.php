@@ -10,13 +10,26 @@
             <div class=" nav-item dropdown pr-3 ">
                 <button class="btn btn-dark dropdown-toggle" type="button" id="deskDropdown" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                    <span class="p-2">میزکار 1 </span>
+                    <span class="p-2">{{\Illuminate\Support\Facades\Auth::user()->activeDesk->name}}</span>
                 </button>
                 <ul class="dropdown-menu text-right dropdown-menu-dark dropdown-menu-end"
                     aria-labelledby="deskDropdown">
-                    <li class=" text-right"><a class="dropdown-item" href="#">میزکار</a></li>
-                    <li><a class="dropdown-item" href="#">میزکار</a></li>
-                    <li><a class="dropdown-item" href="#">میزکار</a></li>
+
+                    @foreach(\Illuminate\Support\Facades\Auth::user()->desks as $desk)
+                        @if (\Illuminate\Support\Facades\Auth::user()->activeDesk->id ===$desk->id)
+                            <li>
+                                <button href="#" disabled class="dropdown-item">{{$desk->name}}</button>
+                            </li>
+                        @else
+                            <li><a href="{{route('desks.select',$desk->id)}}" class="dropdown-item">{{$desk->name}}</a>
+                            </li>
+                        @endif
+                    @endforeach
+                    <li class="border-top">
+                        <a href="{{route('desks.create')}}" class="dropdown-item">افزودن میزکار
+                            جدید
+                        </a>
+                    </li>
                 </ul>
             </div>
         @endauth

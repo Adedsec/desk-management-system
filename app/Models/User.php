@@ -51,6 +51,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function desk()
+    {
+        return $this->hasOne(Desk::class, 'admin_id');
+    }
+
+
+    public function desks()
+    {
+        return $this->belongsToMany(Desk::class, 'desk_user', 'user_id', 'desk_id');
+    }
+
+    public function joinRequests()
+    {
+        return $this->belongsToMany(JoinRequest::class);
+    }
+
+    public function activeDesk()
+    {
+        return $this->belongsTo(Desk::class, 'active_desk_id');
+    }
 
     public function sendEmailVerificationNotification()
     {

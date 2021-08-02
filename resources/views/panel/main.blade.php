@@ -3,11 +3,10 @@
 @section('content')
 
     <div class="row justify-content-center">
-        <div class="col-md-3 mt-5">
+        <div class="col-md-2 mt-5">
             @include('panel.menu')
         </div>
-        <div class="col-md-9 mt-5">
-            @include('layouts.alert')
+        <div class="col-md-10 mt-5">
             @yield('panel')
         </div>
 @endsection
