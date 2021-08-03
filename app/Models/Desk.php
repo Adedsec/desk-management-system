@@ -18,11 +18,13 @@ class Desk extends Model
 
     public function projects()
     {
-        return true;
+        return $this->hasMany(Project::class);
     }
 
     public function users()
     {
         return $this->belongsToMany(User::class);
     }
+
+
 }

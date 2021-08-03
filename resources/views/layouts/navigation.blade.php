@@ -7,31 +7,43 @@
         </div>
 
         @auth
-            <div class=" nav-item dropdown pr-3 ">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="deskDropdown" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    <span class="p-2">{{\Illuminate\Support\Facades\Auth::user()->activeDesk->name}}</span>
-                </button>
-                <ul class="dropdown-menu text-right dropdown-menu-dark dropdown-menu-end"
-                    aria-labelledby="deskDropdown">
 
-                    @foreach(\Illuminate\Support\Facades\Auth::user()->desks as $desk)
-                        @if (\Illuminate\Support\Facades\Auth::user()->activeDesk->id ===$desk->id)
-                            <li>
-                                <button href="#" disabled class="dropdown-item">{{$desk->name}}</button>
-                            </li>
-                        @else
-                            <li><a href="{{route('desks.select',$desk->id)}}" class="dropdown-item">{{$desk->name}}</a>
-                            </li>
-                        @endif
-                    @endforeach
-                    <li class="border-top">
-                        <a href="{{route('desks.create')}}" class="dropdown-item">افزودن میزکار
-                            جدید
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            @if (\Illuminate\Support\Facades\Auth::user()->hasDesk())
+                <div class=" nav-item dropdown pr-3 ">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="deskDropdown"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <span class="p-2">{{\Illuminate\Support\Facades\Auth::user()->activeDesk->name}}</span>
+                    </button>
+                    <ul class="dropdown-menu text-right dropdown-menu-dark dropdown-menu-end"
+                        aria-labelledby="deskDropdown">
+
+                        @foreach(\Illuminate\Support\Facades\Auth::user()->desks as $desk)
+                            @if (\Illuminate\Support\Facades\Auth::user()->activeDesk->id ===$desk->id)
+                                <li>
+                                    <button href="#" disabled class="dropdown-item">{{$desk->name}}</button>
+                                </li>
+                            @else
+                                <li><a href="{{route('desks.select',$desk->id)}}"
+                                       class="dropdown-item">{{$desk->name}}</a>
+                                </li>
+                            @endif
+                        @endforeach
+                        <li class="border-top">
+                            <a href="{{route('desks.create')}}" class="dropdown-item">افزودن میزکار
+                                جدید
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <div class="">
+                    <a href="{{route('desks.create')}}" class="dropdown-item">افزودن میزکار
+                        جدید
+                    </a>
+                </div>
+            @endif
+
         @endauth
 
 
@@ -40,8 +52,8 @@
 
             @auth
                 <ul class="navbar-nav flex-grow-1 d-flex justify-content-center">
-                    <li class=" nav-item"><a href="#" class="nav-link">داشبورد</a></li>
-                    <li class=" nav-item"><a href="#" class="nav-link">پروژه ها</a></li>
+                    <li class=" nav-item"><a href="{{route('home')}}" class="nav-link">داشبورد</a></li>
+                    <li class=" nav-item"><a href="{{route('projects.index')}}" class="nav-link">پروژه ها</a></li>
                     <li class=" nav-item"><a href="#" class="nav-link">وظایف</a></li>
                     <li class=" nav-item"><a href="#" class="nav-link">نامه ها</a></li>
                     <li class=" nav-item"><a href="#" class="nav-link">یادداشت ها</a></li>
@@ -68,7 +80,7 @@
                     @endif
                 @else
                     <li class="nav-item py-0 ">
-                        <a class="nav-link py-0" href="#">
+                        <a class="nav-link py-0" href="{{route('desks.setting')}}">
                             <i class="bi bi-gear-wide" style="font-size: 1.5rem;"></i>
                         </a>
                     </li>
@@ -80,7 +92,8 @@
                         </a>
 
                         <div class="dropdown-menu text-right dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">پروفایل({{ Auth::user()->name }})</a>
+                            <a class="dropdown-item" href="{{route('user.profile')}}">پروفایل({{ Auth::user()->name }}
+                                )</a>
                             <a class="dropdown-item " href="#"
                                onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">

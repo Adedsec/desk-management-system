@@ -6,6 +6,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -13,6 +14,13 @@ class UserController extends Controller
     {
         $users = User::with('roles')->get();
         return view('users.list', compact('users'));
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('users.profile', compact('user'));
+
     }
 
     public function edit(User $user)

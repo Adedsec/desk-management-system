@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\DeskController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,9 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 
 //Authentication Routes
 Auth::routes();
+
+//User Profile
+Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
 // Email verification Routes
 Route::get('/email/send-verification', [VerificationController::class, 'send'])->name('auth.email.send.verification');
 Route::get('email/verify', [VerificationController::class, 'verify'])->name('auth.email.verify');
@@ -64,7 +68,14 @@ Route::group(['prefix' => 'setting', 'middleware' => 'role:admin'], function () 
 //Desk Routes
 
 Route::get('/desks/create', [DeskController::class, 'create'])->name('desks.create');
-Route::post('/desks/create', [DeskController::class, 'store'])->name('desks.store');
+Route::post('/desks', [DeskController::class, 'store'])->name('desks.store');
 Route::get('desks/select/{desk}', [DeskController::class, 'select'])->name('desks.select');
 Route::post('desks/select/{desk}', [DeskController::class, 'update'])->name('desks.update');
 Route::post('desks/send-request/{desk}', [DeskController::class, 'SendRequest'])->name('desks.Send.request');
+
+//Project Routes
+
+Route::get('/projects', \App\Http\Livewire\Project\Index::class)->name('projects.index');
+Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
+Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
+Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');

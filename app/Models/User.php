@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use function PHPUnit\Framework\isEmpty;
 
 class User extends Authenticatable
 {
@@ -60,6 +61,11 @@ class User extends Authenticatable
     public function desks()
     {
         return $this->belongsToMany(Desk::class, 'desk_user', 'user_id', 'desk_id');
+    }
+
+    public function hasDesk()
+    {
+        return !$this->desks->isEmpty();
     }
 
     public function joinRequests()

@@ -2,9 +2,22 @@
     text-align: right;
 }
 
-.request-list {
+.scroll-list {
     max-height: 300px;
     margin-bottom: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+}
+
+.color-label {
+    width: 30px;
+    height: 30px;
+}
+
+.project-item {
+    transition: 0.3s;
+}
+
+.project-item:hover {
+    transform: translate(0, -10px);
 }
