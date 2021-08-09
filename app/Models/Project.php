@@ -30,11 +30,26 @@ class Project extends Model
 
     public function lists()
     {
-        return true;
+        return $this->hasMany(TaskList::class);
+    }
+
+    public function withoutListsTasks()
+    {
+        return $this->tasks()->where('task_list_id', null)->get();
+    }
+
+    public function withoutListTasksCount()
+    {
+        return $this->withoutListsTasks()->count();
     }
 
     public function tasks()
     {
-        return true;
+        return $this->hasMany(Task::class);
+    }
+
+    public function lastListOrder()
+    {
+        return is_null($this->lists()->orderByDesc('order')->first()) ? 1 : $this->lists()->orderByDesc('order')->first()->order;
     }
 }

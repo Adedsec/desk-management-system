@@ -21,3 +21,7 @@
 .project-item:hover {
     transform: translate(0, -10px);
 }
+
+.vh-84 {
+    height: 84vh;
+}

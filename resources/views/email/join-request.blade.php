@@ -1,12 +1,14 @@
 @component('mail::message')
-# Introduction
+    #پیوستن به میزکار
 
-The body of your message.
+    کاربر {{$admin->name}}  شمارا به میز کار {{$desk->name}}  دعوت کرده است
+    اطلاعات ورود شما به صورت زیر است :
+    نام کاربری : ایمیل شما
+    رمزعبور : {{$password}}
+    @component('mail::button', ['url' => route('home')])
+        ورود به میزکار
+    @endcomponent
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
+    باتشکر <br>
+    سیستم مدیریت پروژه میزکار
 @endcomponent

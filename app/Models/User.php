@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->hasOne(Desk::class, 'admin_id');
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
 
     public function desks()
     {

@@ -12,32 +12,24 @@ class JoinRequestMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * @var User
-     */
-    public $user;
-    /**
-     * @var string
-     */
+
     public $password;
-    /**
-     * @var string
-     */
-    public $email;
+    public $admin;
+    public $desk;
 
     /**
      * Create a new message instance.
      *
-     * @param  $user
+     * @param  $desk
      * @param string $password
-     * @param string $email
+     * @param $admin
      */
-    public function __construct($user, string $password, string $email)
+    public function __construct($desk, string $password, $admin)
     {
         //
-        $this->user = $user;
         $this->password = $password;
-        $this->email = $email;
+        $this->admin = $admin;
+        $this->desk = $desk;
     }
 
     /**

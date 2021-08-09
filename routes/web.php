@@ -79,3 +79,4 @@ Route::get('/projects', \App\Http\Livewire\Project\Index::class)->name('projects
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+Route::get('project/{project}/board', [ProjectController::class, 'board'])->name('project.board');

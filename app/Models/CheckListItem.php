@@ -9,7 +9,7 @@ class CheckListItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content', 'check_list_id', 'checked'];
+    protected $fillable = ['content', 'check_list_id', 'checked', 'order'];
 
     public function list()
     {

@@ -14,4 +14,17 @@ class CheckList extends Model
     {
         return $this->hasMany(CheckListItem::class);
     }
+
+    public static function arrayToChecklist(array $array)
+    {
+        $checklist = CheckList::create();
+        foreach ($array as $key => $item) {
+            $checklist->items()->create([
+                'content' => $item,
+                'order' => $key + 1
+            ]);
+        }
+        $checklist->save();
+        return $checklist;
+    }
 }

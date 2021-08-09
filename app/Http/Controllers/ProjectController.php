@@ -54,7 +54,12 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
+        return view('project.index', compact('project'));
+    }
 
+    public function board(Project $project)
+    {
+        return view('project.board', compact('project'));
     }
 
     private function validateForm(Request $request)

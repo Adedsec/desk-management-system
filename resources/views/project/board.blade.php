@@ -2,5 +2,5 @@
 
 @section('content')
     @include('project.navigation')
-    <livewire:project.tasks-page :project="$project"/>
+    <livewire:project.board :project="$project"/>
 @endsection

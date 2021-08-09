@@ -32,7 +32,7 @@
 <div id="app">
     @include('layouts.navigation')
 
-    <main class=" container-fluid">
+    <main class="container-fluid">
 
         @yield('content')
 

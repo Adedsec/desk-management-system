@@ -111,7 +111,7 @@ class DeskController extends Controller
             ]);
 
             //send email
-            SendEmail::dispatchNow($user, new JoinRequestMail(Auth::user(), $password, $email));
+            SendEmail::dispatchNow($user, new JoinRequestMail($desk, $password, Auth::user()));
             return back()->with('success', 'ایمیل ثبت نام در سیستم برای کاربر ارسال شد');
 
         }
