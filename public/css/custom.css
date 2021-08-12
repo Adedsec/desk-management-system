@@ -25,3 +25,16 @@
 .vh-84 {
     height: 84vh;
 }
+
+.vh-80 {
+    height: 76vh;
+}
+
+.focus-none:focus {
+    outline: 0 !important;
+}
+
+.input-focus:focus {
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+}

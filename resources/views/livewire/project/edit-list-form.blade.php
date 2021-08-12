@@ -1,4 +1,4 @@
-<form action="" wire:submit.prevent="store">
+<form action="" wire:submit.prevent="edit">
     <div class="form-group">
 
 
@@ -13,31 +13,30 @@
                 رنگ :
             </div>
 
-            <input type="radio" value="white" wire:model.lazy="color" class="btn-check" name="color" id="white"
+            <input type="radio" value="white" wire:model="color"
+                   {{$list->color == 'white' ? 'checked':''}} class="btn-check" name="color" id="white"
                    autocomplete="off">
             <label class="btn btn-outline-primary mx-1 border-3 color-label rounded-circle"
                    for="white"></label>
 
-            <input type="radio" value="green" wire:model.lazy="color" class="btn-check" name="color" id="green"
+            <input type="radio" value="green" {{$list->color == 'green' ? 'checked':''}} wire:model="color"
+                   class="btn-check" name="color" id="green"
                    autocomplete="off">
             <label class="btn btn-outline-success mx-1 border-3 color-label rounded-circle"
                    for="green"></label>
 
-            <input type="radio" value="red" wire:model.lazy="color" class="btn-check" name="color" id="red"
+            <input type="radio" value="red" {{$list->color == 'blue' ? 'checked':''}} wire:model="color"
+                   class="btn-check" name="color" id="red"
                    autocomplete="off">
             <label class="btn btn-outline-danger mx-1 border-3 color-label rounded-circle"
                    for="red"></label>
 
-
-            @error('color')
-            <li class="small text-danger">{{$message}}</li>
-            @enderror
-
-
-            <input type="radio" value="yellow" wire:model.lazy="color" class="btn-check" name="color" id="yellow"
+            <input type="radio" value="yellow" wire:model="color" class="btn-check" name="color" id="yellow"
                    autocomplete="off">
             <label class="btn btn-outline-warning mx-1 border-3 color-label rounded-circle"
                    for="yellow"></label>
+
+
         </div>
     </div>
 

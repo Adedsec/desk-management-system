@@ -4,13 +4,13 @@ namespace App\Http\Livewire\Project;
 
 use Livewire\Component;
 
-class TasksPage extends Component
+class TaskPage extends Component
 {
 
     public $project;
 
     public function render()
     {
-        return view('livewire.project.tasks-page');
+        return view('livewire.project.task-page');
     }
 }

@@ -7,4 +7,7 @@
         <a class="nav-link  {{ \Illuminate\Support\Facades\Route::currentRouteName() === 'project.board' ? 'active' : ''}}  text-danger"
            href="{{route('project.board',$project->id)}}">بورد پروژه</a>
     </li>
+
+    <livewire:components.task-tags-menu/>
+
 </ul>

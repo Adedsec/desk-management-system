@@ -19,7 +19,7 @@ class CreateNotesTable extends Migration
             $table->unsignedBigInteger('desk_id');
             $table->string('title');
             $table->text('body');
-            $table->unsignedBigInteger('check_list_id');
+            $table->unsignedBigInteger('check_list_id')->nullable();
             $table->string('image')->nullable();
             $table->string('color')->default('white');
             $table->timestamps();

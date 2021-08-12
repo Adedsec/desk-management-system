@@ -4,9 +4,12 @@ namespace App\Http\Livewire\Project;
 
 use App\Models\CheckList;
 use App\Models\Task;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Psy\Util\Str;
+use function PHPUnit\Framework\isEmpty;
 
 class CreateTaskForm extends Component
 {
@@ -25,6 +28,9 @@ class CreateTaskForm extends Component
     public $users = [];
 
     public $checklist = [];
+
+
+    public $tags = [];
 
     protected $rules = [
         'title' => ['required', 'string'],
@@ -48,7 +54,7 @@ class CreateTaskForm extends Component
         $task = Auth::user()->tasks()->create([
             'desk_id' => $this->project->desk->id,
             'project_id' => $this->project->id,
-            'task_list_id' => $this->list->id,
+            'task_list_id' => $this->list->id ?? null,
             'title' => $this->title,
             'description' => $this->description,
             'deadline' => $this->deadline,
@@ -57,9 +63,23 @@ class CreateTaskForm extends Component
 
         $task->users()->attach($this->users);
 
-        $check = CheckList::arrayToChecklist($this->checklist);
+        if (!isEmpty($this->checklist)) {
+            $check = CheckList::arrayToChecklist($this->checklist);
 
-        $task->check_list_id = $check->id;
+            $task->check_list_id = $check->id;
+        }
+
+        if (!isEmpty($this->attachment)) {
+            foreach ($this->attachment as $item) {
+                $task->attachments()->create([
+                    'name' => $item->getClientOriginalName(),
+                    'type' => explode('.', $item->getClientOriginalName())[1],
+                    'link' => '/storage/' . $item->store('attachments', 'public')
+                ]);
+            }
+        }
+
+        $task->tags()->attach($this->tags);
 
         $task->save();
 

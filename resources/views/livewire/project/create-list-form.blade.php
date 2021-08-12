@@ -40,7 +40,7 @@
 
     <div class="d-flex justify-content-end align-items-center">
         <button type="button" data-bs-dismiss="modal" class="btn mt-4 mx-1 btn-outline-danger">لغو</button>
-        <button type="submit" class="btn mt-4 btn-outline-success">ایجاد</button>
+        <button type="submit" data-bs-dismiss="modal" class="btn mt-4 btn-outline-success">ایجاد</button>
 
     </div>
 </form>

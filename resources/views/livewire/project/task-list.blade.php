@@ -58,9 +58,13 @@
 
 
         @if (is_null($list))
-            tasks without any list
+            @foreach($project->tasks->where('task_list_id',0) as $task)
+                <livewire:components.board-task-item :task="$task"/>
+            @endforeach
         @else
-            tasks from list : {{$list->title}}
+            @foreach($list->tasks as $task)
+                <livewire:components.board-task-item :task="$task"/>
+            @endforeach
         @endif
     </div>
 
@@ -83,22 +87,46 @@
         </div>
 
         {{--        delete list modal--}}
-        <div class="modal fade" id="deleteListModal{{$list->id}}" tabindex="-1"
-             aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">از حذف لیست اطمینان دارید ؟</h5>
-                    </div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">خیر</button>
-                        <button type="button" class="btn btn-danger">بله</button>
+        @if ($list->deletable())
+
+            <div class="modal fade" id="deleteListModal{{$list->id}}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">از حذف لیست اطمینان دارید ؟</h5>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">خیر</button>
+                            <button type="button" class="btn btn-danger" wire:click="deleteList"
+                                    data-bs-dismiss="modal">بله
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+        @else
+
+            <div class="modal fade" id="deleteListModal{{$list->id}}" tabindex="-1"
+                 aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">لیست به دلیل وجود وظیفه قابل حذف نیست</h5>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بازگشت</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     @endif
 
     {{--            create Task modal--}}

@@ -21,6 +21,26 @@ class Desk extends Model
         return $this->hasMany(Project::class);
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    public function letters()
+    {
+        return $this->hasMany(Letter::class);
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class);

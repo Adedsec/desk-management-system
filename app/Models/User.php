@@ -62,6 +62,16 @@ class User extends Authenticatable
         return $this->hasMany(Task::class);
     }
 
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
+    }
+
+    public function letters()
+    {
+        return $this->hasMany(Letter::class);
+    }
+
 
     public function desks()
     {

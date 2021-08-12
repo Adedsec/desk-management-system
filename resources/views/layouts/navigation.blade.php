@@ -52,11 +52,21 @@
 
             @auth
                 <ul class="navbar-nav flex-grow-1 d-flex justify-content-center">
-                    <li class=" nav-item"><a href="{{route('home')}}" class="nav-link">داشبورد</a></li>
-                    <li class=" nav-item"><a href="{{route('projects.index')}}" class="nav-link">پروژه ها</a></li>
-                    <li class=" nav-item"><a href="#" class="nav-link">وظایف</a></li>
-                    <li class=" nav-item"><a href="#" class="nav-link">نامه ها</a></li>
-                    <li class=" nav-item"><a href="#" class="nav-link">یادداشت ها</a></li>
+                    <li class=" nav-item  "><a href="{{route('home')}}"
+                                               class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName()==='home' ? 'active' : ''}}">داشبورد</a>
+                    </li>
+                    <li class=" nav-item  "><a href="{{route('projects.index')}}"
+                                               class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName()==='projects.index' ? 'active' : ''}}">پروژه
+                            ها</a></li>
+                    <li class=" nav-item  "><a href="{{route('task.index')}}"
+                                               class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName()==='task.index' ? 'active' : ''}}">وظایف</a>
+                    </li>
+                    <li class=" nav-item  "><a href="{{route('letters.input')}}"
+                                               class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName()==='letters.input' ? 'active' : ''}}">نامه
+                            ها</a></li>
+                    <li class=" nav-item  "><a href="{{route('notes.index')}}"
+                                               class="nav-link {{\Illuminate\Support\Facades\Route::currentRouteName()==='notes.index' ? 'active' : ''}}">یادداشت
+                            ها</a></li>
                 </ul>
 
         @endauth

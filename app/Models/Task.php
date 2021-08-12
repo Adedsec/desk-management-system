@@ -46,5 +46,16 @@ class Task extends Model
         return $this->morphMany(Attachment::class, 'attachmentable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class,'taggable');
+    }
+
+
+    public function persianDeadline()
+    {
+        return $this->deadline;
+    }
+
 
 }

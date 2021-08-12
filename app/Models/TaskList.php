@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use function PHPUnit\Framework\isEmpty;
 
 class TaskList extends Model
 {
@@ -25,5 +26,10 @@ class TaskList extends Model
     public function tasksCount()
     {
         return $this->tasks()->count();
+    }
+
+    public function deletable()
+    {
+        return $this->tasks->count() == 0;
     }
 }

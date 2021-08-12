@@ -34,6 +34,11 @@
                 data-bs-toggle="collapse">
             <i class="bi bi-paperclip"></i>
         </button>
+        <button type="button" class="btn btn-outline-success mx-1"
+                data-bs-target="#tagsCollapse{{is_null($list)?0:$list->id}}"
+                data-bs-toggle="collapse">
+            <i class="bi bi-tag-fill"></i>
+        </button>
 
     </div>
 
@@ -88,13 +93,33 @@
         </div>
     </div>
 
+    <div class="collapse" id="tagsCollapse{{is_null($list)?0:$list->id}}">
+        <div class="form-group text-right mt-2">
+            <label class="text-right" style="left: auto" for="description">افزودن برچسب</label>
+            <div class="">
+                <ul class="d-flex flex-wrap px-0 flex-row">
+
+                    @foreach(\App\Models\Tag::getTaskAvailableTags() as $tag)
+                        <li class="list-group-item border-0">
+                            <input id="#tag{{$tag->id}}" type="checkbox" wire:model.defer="tags"
+                                   value="{{$tag->id}}"
+                                   class="form-check-input form-check-inline">
+                            <label for="#tag{{$tag->id}}">{{$tag->name}}</label>
+                        </li>
+
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+    </div>
+
 
     @foreach($errors->all() as $error)
         <li class="small text-danger">{{$error}}</li>
     @endforeach
 
     <div class="d-flex flex-row justify-content-end align-items-center">
-        <button class="btn btn-outline-success" wire:keydown.enter.prevent=""
+        <button class="btn btn-outline-success" data-bs-dismiss="modal" wire:keydown.enter.prevent=""
                 type="submit">ذخیره
         </button>
     </div>
