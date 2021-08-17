@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Hekmatinasser\Verta\Verta;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,8 +40,10 @@ class Task extends Model
 
     public function checkList()
     {
-        return $this->hasOne(CheckList::class);
+        return $this->belongsTo(CheckList::class);
     }
+
+
 
     public function attachments()
     {
@@ -48,13 +52,19 @@ class Task extends Model
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class,'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
 
     public function persianDeadline()
     {
-        return $this->deadline;
+        $v = new Verta($this->deadline);
+        return $v->format('%d %B، %Y   ساعت : H:i');
+    }
+
+    public function editDeadline()
+    {
+        return is_null($this->deadline) ? null : Carbon::parse($this->deadline)->format('Y-m-d\TH:i');
     }
 
 

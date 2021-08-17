@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Note;
 
+use App\Models\CheckList;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -40,15 +41,23 @@ class CreateNoteForm extends Component
 
     public function store()
     {
-        $this->validate();
 
-        Auth::user()->activeDesk->notes()->create([
+
+        $this->validate();
+        $check = null;
+        if (!empty($this->checklist)) {
+            $check = CheckList::arrayToChecklist($this->checklist)->id;
+        }
+
+        $note = Auth::user()->activeDesk->notes()->create([
             'title' => $this->title,
             'body' => $this->body,
             'image' => is_null($this->image) ? null : '/storage/' . $this->image->store('notes', 'public'),
             'color' => $this->color,
             'user_id' => Auth::user()->id,
+            'check_list_id' => $check
         ]);
+
         $this->emit('refreshNotes');
         return back();
     }

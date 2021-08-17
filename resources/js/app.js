@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('livewire-sortable')
 
 // let Swal = require('sweetalert2');
 //

@@ -7,4 +7,10 @@
         <a class="nav-link  {{ \Illuminate\Support\Facades\Route::currentRouteName() === 'letters.sent' ? 'active' : ''}}  text-danger"
            href="{{route('letters.sent')}}">صندوق خروجی</a>
     </li>
+    <li class="nav-item ">
+        <a class="nav-link  {{ \Illuminate\Support\Facades\Route::currentRouteName() === 'letters.archive' ? 'active' : ''}}  text-danger"
+           href="{{route('letters.archive')}}">آرشیو نامه ها</a>
+    </li>
+
+    <livewire:components.letter-tags-menu/>
 </ul>

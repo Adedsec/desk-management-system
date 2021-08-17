@@ -17,7 +17,7 @@ class CheckList extends Model
 
     public static function arrayToChecklist(array $array)
     {
-        $checklist = CheckList::create();
+        $checklist = CheckList::create([]);
         foreach ($array as $key => $item) {
             $checklist->items()->create([
                 'content' => $item,
@@ -26,5 +26,10 @@ class CheckList extends Model
         }
         $checklist->save();
         return $checklist;
+    }
+
+    public function lastOrder()
+    {
+        return $this->items()->orderByDesc('order')->first()->order ?? 0;
     }
 }

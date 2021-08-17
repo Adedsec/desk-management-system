@@ -95,3 +95,6 @@ Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
 //letter routes
 Route::get('/letters/input', [LetterController::class, 'input'])->name('letters.input');
 Route::get('/letters/sent', [LetterController::class, 'sent'])->name('letters.sent');
+Route::get('/letters/archive', [LetterController::class, 'archive'])->name('letters.archive');
+Route::get('/letters/archive/{letter}', [LetterController::class, 'ToggleArchive'])->name('letters.archive.add');
+Route::get('/letters/{letter}', [LetterController::class, 'show'])->name('letters.show');

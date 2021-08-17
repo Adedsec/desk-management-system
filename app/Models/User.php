@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravolt\Avatar\Facade as Avatar;
 use function PHPUnit\Framework\isEmpty;
 
 class User extends Authenticatable
@@ -102,5 +103,13 @@ class User extends Authenticatable
     {
 
         SendEmail::dispatchNow($this, new ResetPassword($this, $token));
+    }
+
+
+    public function getAvatar()
+    {
+        return is_null($this->avatar)
+            ? Avatar::create($this->email)->setFont(asset('fonts/Vazir-Bold.ttf'))
+            : $this->avatar;
     }
 }

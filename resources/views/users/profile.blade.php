@@ -12,7 +12,7 @@
 
                 <div class="row">
                     <div class="col-md-2">
-                        <img src="/storage/project/project_1.jpg" class="rounded-circle" width="120px" height="120px"
+                        <img src="{{$user->getAvatar()}}" class="rounded-circle" width="120px" height="120px"
                              alt="profile picture">
                     </div>
 

@@ -16,7 +16,7 @@
 
                         <div class="card-body rounded-5 d-flex flex-column justify-content-start align-items-center">
                             <div class="mb-3">
-                                <img src="{{$project->image}}" width="100px" height="100px" class="rounded-circle"
+                                <img src="{{$project->getAvatar()}}" width="100px" height="100px" class="rounded-circle"
                                      alt="">
                             </div>
                             <h5 class="text-center m-0">{{$project->name}}</h5>
@@ -25,9 +25,10 @@
                                 <div class="row mt-3">
                                     <p class="m-0">وضعیت کلی پروژه :</p>
                                     <div class="progress  p-0" style="height: 15px">
-                                        <div class="progress-bar small" role="progressbar" style="width: 25%;"
-                                             aria-valuenow="25"
-                                             aria-valuemin="0" aria-valuemax="100">25%
+                                        <div class="progress-bar small" role="progressbar"
+                                             style="width: {{$project->generalProgress()}}%;"
+                                             aria-valuenow="{{$project->generalProgress()}}"
+                                             aria-valuemin="0" aria-valuemax="100">{{$project->generalProgress()}}%
                                         </div>
                                     </div>
                                 </div>
@@ -35,9 +36,10 @@
                                 <div class="row  mt-3">
                                     <p class="m-0">وظایف من :</p>
                                     <div class="progress p-0" style="height: 15px">
-                                        <div class="progress-bar small" role="progressbar" style="width: 25%;"
-                                             aria-valuenow="25"
-                                             aria-valuemin="0" aria-valuemax="100">25%
+                                        <div class="progress-bar small" role="progressbar"
+                                             style="width: {{$project->userProgress()}}%;"
+                                             aria-valuenow="{{$project->userProgress()}}"
+                                             aria-valuemin="0" aria-valuemax="100">{{$project->userProgress()}}%
                                         </div>
                                     </div>
                                 </div>
@@ -47,9 +49,12 @@
                         <div class="card-footer bg-white  border-1"
                              style="border-bottom-left-radius: 10px;border-bottom-right-radius: 10px">
                             <div class="d-flex justify-content-between">
-                                <div><span class="badge bg-secondary text-light" style="font-size: 12px">5</span></div>
+                                <div><span class="badge bg-secondary text-light"
+                                           style="font-size: 12px">{{$project->userTasksCount()-$project->userCompletedTasksCount()}}</span>
+                                </div>
                                 <div class="small">
-                                    وظایف انجام شده : 12 از 24
+                                    وظایف انجام شده : {{$project->completedTasksCount()}}
+                                    از {{$project->allTasksCount()}}
                                 </div>
                             </div>
                         </div>

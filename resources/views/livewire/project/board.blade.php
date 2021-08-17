@@ -1,13 +1,10 @@
 <div class="row mt-3 vh-84">
     <ul class="d-flex align-items-start  flex-nowrap overflow-scroll flex-row">
-
-
         {{--        lists--}}
         <livewire:project.task-list :project="$project" :list="null"/>
         @foreach($project->lists as $list)
             <livewire:project.task-list :project="$project" :list="$list"/>
         @endforeach
-
 
         {{--        add list button--}}
         <a href="#" data-bs-toggle="modal" data-bs-target="#createListModal" class="text-decoration-none col-md-2"

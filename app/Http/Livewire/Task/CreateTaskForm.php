@@ -1,16 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Project;
+namespace App\Http\Livewire\Task;
 
 use App\Models\CheckList;
-use App\Models\Task;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
+use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Psy\Util\Str;
-use function PHPUnit\Framework\isEmpty;
 
 class CreateTaskForm extends Component
 {
@@ -18,7 +14,8 @@ class CreateTaskForm extends Component
     use WithFileUploads;
 
     public $list;
-    public $project;
+    public $project = 1;
+    public $desk;
 
     public $title;
     public $description;
@@ -42,6 +39,11 @@ class CreateTaskForm extends Component
         'checklist'
     ];
 
+    public function mount()
+    {
+        $this->desk = Auth::user()->activeDesk;
+    }
+
     public function checklist($value)
     {
         $this->checklist = $value;
@@ -50,19 +52,19 @@ class CreateTaskForm extends Component
 
     public function submit()
     {
-
         $this->validate();
 
+        $this->project = Project::find($this->project);
+
         $task = Auth::user()->tasks()->create([
-            'desk_id' => $this->project->desk->id,
+            'desk_id' => $this->desk->id,
             'project_id' => $this->project->id,
             'task_list_id' => $this->list->id ?? null,
             'title' => $this->title,
             'description' => $this->description,
             'deadline' => $this->deadline,
-            'order' => is_null($this->list)
-                ? ($this->project->withoutListsTasks()->sortByDesc('order')->first()->order ?? 0) + 1
-                : ($this->list->tasks()->orderByDesc('order')->first()->order ?? 0) + 1
+            'order' => ($this->project->withoutListsTasks()->sortByDesc('order')->first()->order ?? 0) + 1
+
         ]);
 
         $task->users()->attach($this->users);
@@ -94,6 +96,6 @@ class CreateTaskForm extends Component
 
     public function render()
     {
-        return view('livewire.project.create-task-form');
+        return view('livewire.task.create-task-form');
     }
 }

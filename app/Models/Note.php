@@ -23,7 +23,7 @@ class Note extends Model
 
     public function checkList()
     {
-        return true;
+        return $this->belongsTo(CheckList::class);
     }
 
     public function tags()
