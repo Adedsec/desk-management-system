@@ -1,5 +1,5 @@
 <div class="row mt-3 vh-84">
-    <ul class="d-flex align-items-start  flex-nowrap overflow-scroll flex-row">
+    <ul class="d-flex align-items-start  flex-nowrap overflow-scroll flex-row" wire:sortable="updateListOrder" wire:sortable-group="updateTaskOrder">
         {{--        lists--}}
         <livewire:project.task-list :project="$project" :list="null"/>
         @foreach($project->lists as $list)

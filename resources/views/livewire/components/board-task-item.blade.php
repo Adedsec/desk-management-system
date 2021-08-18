@@ -1,6 +1,5 @@
-<div class="">
-    <div class="d-block text-decoration-none"
-    >
+<div class="" wire:key="task-{{ $task->id }}" wire:sortable-group.item="{{ $task->id }}" style="z-index: 10">
+    <div class="d-block text-decoration-none" style="cursor: grab">
         <div class="card {{$task->checked ? 'shadow-sm' : 'shadow'}} my-1">
             <div class="card-body py-2">
                 <div class="d-flex mb-1 justify-content-between align-items-center">

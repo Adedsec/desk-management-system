@@ -13,6 +13,16 @@ class Board extends Component
         'listAdded' => '$refresh'
     ];
 
+    public function updateListOrder($list)
+    {
+        dd($list);
+    }
+
+    public function updateTaskOrder($tasks)
+    {
+        dd($tasks);
+    }
+
     public function render()
     {
         return view('livewire.project.board');
