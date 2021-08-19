@@ -29,7 +29,13 @@
             <div class="d-flex  flex-row align-items-center justify-content-start">
 
                 @if (!is_null($task->deadline))
-                    <span class="badge bg-danger p-2">{{$task->persianDeadline()   }}</span>
+                    <span
+                        class="badge {{$task->isDelayed() ? 'bg-danger' : 'bg-success' }} p-2 rounded-1">
+                             @if ($task->isDelayed())
+                            <i class="bi bi-exclamation-circle"></i>
+                        @endif
+                        {{$task->persianDeadline()}}
+                        </span>
                 @endif
 
                 @if (!is_null($task->check_list_id))

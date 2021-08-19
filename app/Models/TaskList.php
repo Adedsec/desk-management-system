@@ -12,6 +12,8 @@ class TaskList extends Model
 
     protected $fillable = ['title', 'color', 'order'];
 
+    protected $attributes = ['color' => 'white'];
+
     public function project()
     {
         return $this->belongsTo(Project::class);

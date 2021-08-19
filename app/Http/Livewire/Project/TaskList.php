@@ -11,6 +11,10 @@ class TaskList extends Component
     public $list;
 
 
+    protected $listeners = [
+        'taskDeleted' => '$refresh'
+    ];
+
     public function deleteList()
     {
         $this->list->delete();

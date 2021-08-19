@@ -1,6 +1,52 @@
-<div class="row mt-4 vh-84">
+<div class="row mt-4 pb-5 vh-84">
     <div class="col-md-3">
         <div class="card h-100">
+            <div class="card-body">
+                <p class="card-title">
+                    وضعیت کلی :
+                </p>
+                <div class="progress mt-3" style="height: 5px">
+                    <div class="progress-bar bg-success" role="progressbar"
+                         title="انجام شده : {{$project->generalProgress()}}%"
+                         style="width: {{$project->generalProgress()}}%" aria-valuenow="{{$project->generalProgress()}}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                    <div class="progress-bar bg-danger" title="دارای تاخبر : {{$project->delayedProgress()}}%"
+                         role="progressbar"
+                         style="width: {{$project->delayedProgress()}}%"
+                         aria-valuenow="{{$project->delayedProgress()}}"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+
+                <div class="d-flex mt-3 justify-content-between align-items-baseline">
+                    <p class="card-text small">
+                        انجام شده :
+                        {{$project->completedTasksCount()}}
+                    </p>
+                    <p class="card-text small">
+                        انجام نشده :
+                        {{$project->allTasksCount()-$project->completedTasksCount()}}
+                    </p>
+                    <p class="card-text small" style="padding-left: 5px">
+                        دارای تاخیر :
+                        {{$project->delayTasksCount()}}
+                    </p>
+                </div>
+
+                <p class="card-title mt-4">
+                    اعضای پروژه :
+                </p>
+
+                <div class="d-flex justify-content-start align-items-center flex-wrap">
+                    @foreach($project->users as $user)
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                            <img src="{{$user->getAvatar()}}" alt="" width="40px" height="40px">
+                            <p class="small">{{$user->name}}</p>
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
 
         </div>
     </div>

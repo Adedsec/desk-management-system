@@ -1,9 +1,10 @@
-<li class="list-group-item border-0 mx-1 bg-transparent col-md-2 p-0 rounded-3" wire:key="list-{{$list->id??0}}"
+<li class="list-group-item border-0 mx-1 bg-transparent col-md-2 p-0 rounded-3"
+    wire:key="list-{{$list->id??0 . rand()}}"
     wire:sortable.item="{{$list->id ??0}}"
-    :key="{{is_null($list) ? 'list_null' : 'list_'.$list->id}}"
-    style="width: 20%">
-    <div class="d-flex flex-column">
-        <div class="rounded-2 bg-success mb-1 d-flex justify-content-between align-items-center" wire:sortable.handle
+    style="width: 20%;height: 80vh">
+    <div class="d-flex flex-column h-100">
+        <div class="rounded-2 bg-success mb-1 d-flex justify-content-between  align-items-center"
+             wire:sortable.handle
              style="height: 32px;cursor: grab">
             <div class="m-3">
                 @if (is_null($list))
@@ -57,14 +58,14 @@
             </div>
         </a>
 
-        <div wire:sortable-group.item-group="{{ $list->id ?? 0 }}">
+        <div class="h-100" wire:sortable-group.item-group="{{ $list->id ?? 0 }}">
             @if (is_null($list))
                 @foreach($project->tasks->where('task_list_id',0)->sortBy('order') as $task)
-                    <livewire:components.board-task-item :task="$task"/>
+                    <livewire:components.board-task-item :task="$task" :key="'task-'.$task->id.rand()"/>
                 @endforeach
             @else
                 @foreach($list->tasks->sortBy('order') as $task)
-                    <livewire:components.board-task-item :task="$task"/>
+                    <livewire:components.board-task-item :task="$task" :key="'task-'.$task->id.rand()"/>
                 @endforeach
             @endif
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -94,5 +95,15 @@ class Project extends Model
     public function userProgress()
     {
         return $this->userTasksCount() == 0 ? 0 : intval(($this->userCompletedTasksCount() / $this->userTasksCount()) * 100);
+    }
+
+    public function delayTasksCount()
+    {
+        return $this->tasks()->where('deadline', '<', Carbon::now())->count();
+    }
+
+    public function delayedProgress()
+    {
+        return $this->allTasksCount() == 0 ? 0 : intval($this->delayTasksCount() / $this->allTasksCount() * 100);
     }
 }

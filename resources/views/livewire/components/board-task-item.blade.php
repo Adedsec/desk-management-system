@@ -9,8 +9,8 @@
                         <a type="button" data-bs-target="#viewTaskModal{{$task->id}}" data-bs-toggle="modal">
                             <strong
                                 class="card-title mx-1 text-dark {{$task->checked ? ' text-muted disabled text-decoration-line-through' : ''}}  small">{{$task->title}}</strong>
-
                         </a>
+
                     </div>
                     <div>
                         <a class="text-danger" href="#deleteModal{{$task->id}}" data-bs-toggle="modal"><i
@@ -21,7 +21,13 @@
                 {{--        daedline--}}
                 @if (!is_null($task->deadline))
                     <div class="w-100">
-                        <span class="badge bg-info p-2 rounded-1">مهلت انجام : {{$task->persianDeadline()}}</span>
+                        <span
+                            class="badge {{$task->isDelayed() ? 'bg-danger' : 'bg-info' }} p-2 rounded-1">
+                             @if ($task->isDelayed())
+                                <i class="bi bi-exclamation-circle"></i>
+                            @endif
+                            مهلت انجام : {{$task->persianDeadline()}}
+                        </span>
                     </div>
                 @endif
                 {{--        tags--}}
@@ -40,6 +46,17 @@
                              aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 @endif
+
+                <div class="d-flex justify-content-start align-items-center0">
+                    @foreach($task->users as $user)
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+
+                            <img src="{{$user->getAvatar()}}" class="rounded-circle" style="cursor: pointer"
+                                 alt="{{$user->name}}" title="{{$user->name}}"
+                                 height="20px" width="20px">
+                        </div>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>

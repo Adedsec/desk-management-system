@@ -11,11 +11,9 @@ class CreateListForm extends Component
     public $project;
 
     public $title;
-    public $color;
 
     public $rules = [
         'title' => ['required', 'string', 'max:255'],
-        'color' => ['string']
     ];
 
     public function store()
@@ -25,7 +23,7 @@ class CreateListForm extends Component
         $this->project->lists()->create([
             'title' => $this->title,
             'order' => $order,
-            'color' => $this->color]);
+        ]);
         $this->emit('listAdded');
     }
 

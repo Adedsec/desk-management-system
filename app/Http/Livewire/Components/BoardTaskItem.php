@@ -23,6 +23,7 @@ class BoardTaskItem extends Component
     public function deleteTask()
     {
         $this->task->delete();
+        $this->emit('taskDeleted');
     }
 
     public function updated($name, $value)

@@ -44,7 +44,6 @@ class Task extends Model
     }
 
 
-
     public function attachments()
     {
         return $this->morphMany(Attachment::class, 'attachmentable');
@@ -65,6 +64,11 @@ class Task extends Model
     public function editDeadline()
     {
         return is_null($this->deadline) ? null : Carbon::parse($this->deadline)->format('Y-m-d\TH:i');
+    }
+
+    public function isDelayed()
+    {
+        return $this->deadline < Carbon::now();
     }
 
 

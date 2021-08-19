@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Note;
 
 use App\Models\Desk;
 use App\Models\Note;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Index extends Component
@@ -27,7 +28,7 @@ class Index extends Component
 
     public function mount()
     {
-        $this->notes = $this->desk->notes;
+        $this->notes = Auth::user()->notes->where('desk_id', $this->desk->id);
     }
 
 
@@ -46,7 +47,7 @@ class Index extends Component
 
     public function filter()
     {
-        $this->notes = $this->desk->notes()->where('title', 'like', '%' . $this->filter_text . '%');
+        $this->notes = Auth::user()->notes()->where('desk_id', $this->desk->id)->where('title', 'like', '%' . $this->filter_text . '%');
         if (!empty($this->filter_tags)) {
             $this->notes = $this->notes->whereHas('tags', function ($query) {
                 $query->whereIn('tag_id', $this->filter_tags);
