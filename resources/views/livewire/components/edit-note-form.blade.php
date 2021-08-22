@@ -14,6 +14,14 @@
         @endforeach
     </div>
 
+    <div>
+        @if (session()->has('message'))
+            <div class="alert small alert-success">
+                {{ session('message') }}
+            </div>
+        @endif
+    </div>
+
     <div class="w-100 mt-2 mb-0 d-flex justify-content-end align-items-center ">
 
         <div class="d-flex justify-content-end align-items-center">

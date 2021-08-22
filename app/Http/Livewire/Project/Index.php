@@ -13,9 +13,12 @@ class Index extends Component
 
     public function mount()
     {
-        $this->projects = Auth::user()->activeDesk->projects;
+        $this->projects = Auth::user()->activeDesk->projects()->whereHas('users', function ($q) {
+                $q->where('user_id', Auth::user()->id);
+            })->get() ?? null;
 
     }
+
 
     public function updated($name)
     {

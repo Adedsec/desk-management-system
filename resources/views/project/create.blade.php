@@ -34,34 +34,6 @@
                             <label class="text-right right" for="name" style="left: auto"> نام پروژه</label>
                         </div>
 
-                        <div class="form-group mt-4">
-
-                            <div class="text-dark mb-3">
-                                رنگ پروژه :
-                            </div>
-
-                            <input type="radio" value="white" class="btn-check" name="color" id="white"
-                                   autocomplete="off">
-                            <label class="btn btn-outline-primary mx-1 border-3 color-label rounded-circle"
-                                   for="white"></label>
-
-                            <input type="radio" value="green" class="btn-check" name="color" id="green"
-                                   autocomplete="off">
-                            <label class="btn btn-outline-success mx-1 border-3 color-label rounded-circle"
-                                   for="green"></label>
-
-                            <input type="radio" value="red" class="btn-check" name="color" id="red"
-                                   autocomplete="off">
-                            <label class="btn btn-outline-danger mx-1 border-3 color-label rounded-circle"
-                                   for="red"></label>
-
-
-                            <input type="radio" value="yellow" class="btn-check" name="color" id="yellow"
-                                   autocomplete="off">
-                            <label class="btn btn-outline-warning mx-1 border-3 color-label rounded-circle"
-                                   for="yellow"></label>
-                        </div>
-
                         <div class="my-4">
                             <label for="formFile" class="form-label">
                                 تصویر نشانه :
@@ -101,7 +73,7 @@
                         <div class="d-flex mt-3 justify-content-end align-items-center">
 
                             <div class="mx-1">
-                                <button class="btn btn-outline-danger">لغو</button>
+                                <a href="{{route('projects.index')}}" class="btn btn-outline-danger">لغو</a>
                             </div>
                             <div>
                                 <button class="btn btn-outline-dark" type="submit">ایجاد پروژه جدید</button>

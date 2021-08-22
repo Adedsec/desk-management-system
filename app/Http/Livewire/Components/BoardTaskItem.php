@@ -13,6 +13,15 @@ class BoardTaskItem extends Component
 
     public $checklist;
 
+    protected $listeners = [
+        'updateTaskItem'
+    ];
+
+    public function updateTaskItem()
+    {
+        $this->task->name = $this->task->name;
+    }
+
     public function mount()
     {
         $this->checked = $this->task->checked;

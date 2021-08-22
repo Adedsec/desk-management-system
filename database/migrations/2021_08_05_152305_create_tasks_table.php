@@ -13,12 +13,13 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
-        Schema::create('task', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('desk_id');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('task_list_id')->nullable();
+            $table->boolean('checked')->default(false);
             $table->string('title');
             $table->text('description')->nullable();
             $table->dateTime('deadline')->nullable();
@@ -67,6 +68,6 @@ class CreateTasksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task');
+        Schema::dropIfExists('tasks');
     }
 }

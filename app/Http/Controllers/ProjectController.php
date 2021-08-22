@@ -62,6 +62,12 @@ class ProjectController extends Controller
         return view('project.board', compact('project'));
     }
 
+    public function updateUsers(Request $request, Project $project)
+    {
+        $project->users()->sync($request->get('users'));
+        return back()->with('success', 'عملیات با موفقیت انجام شد');
+    }
+
     private function validateForm(Request $request)
     {
 

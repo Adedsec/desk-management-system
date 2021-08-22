@@ -12,8 +12,10 @@ class TaskList extends Component
 
 
     protected $listeners = [
-        'taskDeleted' => '$refresh'
+        'taskDeleted' => '$refresh',
+        'refreshBoard' => '$refresh'
     ];
+
 
     public function deleteList()
     {

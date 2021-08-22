@@ -2,5 +2,5 @@
 
 @section('content')
     @include('letter.navigation')
-    <livewire:letter.archive-page :letters="$letters"/>
+    <livewire:letter.archive-page/>
 @endsection

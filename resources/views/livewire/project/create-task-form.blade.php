@@ -104,7 +104,7 @@
                             <input id="#tag{{$tag->id}}" type="checkbox" wire:model.defer="tags"
                                    value="{{$tag->id}}"
                                    class="form-check-input form-check-inline">
-                            <label for="#tag{{$tag->id}}">{{$tag->name}}</label>
+                            <label for="#tag{{$tag->id}}"><span class="badge bg-info">{{$tag->name}}</span></label>
                         </li>
 
                     @endforeach
@@ -118,8 +118,9 @@
         <li class="small text-danger">{{$error}}</li>
     @endforeach
 
-    <div class="d-flex flex-row justify-content-end align-items-center">
-        <button class="btn btn-outline-success" data-bs-dismiss="modal" wire:keydown.enter.prevent=""
+    <div class="d-flex mt-2 flex-row justify-content-end align-items-center">
+        <button class="btn btn-outline-danger" type="button" data-bs-dismiss="modal">بازگشت</button>
+        <button class="btn btn-outline-success mx-2" wire:keydown.enter.prevent=""
                 type="submit">ذخیره
         </button>
     </div>

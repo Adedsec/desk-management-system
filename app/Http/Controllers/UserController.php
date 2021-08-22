@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JoinRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -37,4 +38,18 @@ class UserController extends Controller
         $user->refreshRoles($request->get('roles'));
         return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد ');
     }
+
+    public function acceptRequest(JoinRequest $joinRequest)
+    {
+        if (Auth::user()->id == $joinRequest->user->id) {
+
+            $joinRequest->desk->users()->attach($joinRequest->user);
+            Auth::user()->active_desk_id = $joinRequest->desk->id;
+            $joinRequest->delete();
+            return redirect()->route('home')->with('success', 'با موفقیت به میزکار اضافه شدید');
+        }
+
+        return back()->with('error', 'مشکلی رخ داده است !');
+    }
+
 }

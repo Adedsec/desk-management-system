@@ -10,7 +10,7 @@
 
         <div class="d-flex flex-wrap justify-content-start align-items-center">
             @foreach($note->tags as $tag)
-                <span class="badge p-1 bg-secondary" style="margin: 1px">تگ یک</span>
+                <span class="badge p-1 text-dark bg-warning" style="margin: 1px">{{$tag->name}}</span>
             @endforeach
         </div>
 

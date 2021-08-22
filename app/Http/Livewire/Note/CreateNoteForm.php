@@ -17,16 +17,18 @@ class CreateNoteForm extends Component
     public $image;
     public $color = 'white';
     public $checklist = [];
+    public $tags = [];
 
 
     protected $rules = [
         'title' => ['required', 'string', 'max:255'],
         'body' => ['required', 'string'],
-        'image' => ['image', 'max:2048']
+        'image' => ['nullable', 'image', 'mimes:jpg,jpeg,bmp,png', 'max:2048']
     ];
 
     protected $listeners = [
-        'checklist'
+        'checklist',
+        'refreshForm' => '$refresh'
     ];
 
     public function checklist($value)
@@ -41,8 +43,6 @@ class CreateNoteForm extends Component
 
     public function store()
     {
-
-
         $this->validate();
         $check = null;
         if (!empty($this->checklist)) {
@@ -58,7 +58,16 @@ class CreateNoteForm extends Component
             'check_list_id' => $check
         ]);
 
+        $note->tags()->attach($this->tags);
+
+        $note->save();
+
         $this->emit('refreshNotes');
+        $this->emit('refreshForm');
+
+        $this->title = '';
+        $this->image = null;
+        $this->body = '';
         return back();
     }
 

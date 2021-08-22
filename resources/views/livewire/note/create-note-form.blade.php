@@ -14,6 +14,17 @@
         @endforeach
     </div>
 
+    <div class="collapse" id="tagsCollapse">
+        <p>برچسب :</p>
+        @foreach(\App\Models\Tag::getNoteAvailableTags() as $tag)
+            <label for="">
+                <input type="checkbox" class="form-check-input form-check-inline" wire:model.defer="tags"
+                       value="{{$tag->id}}">
+                <span class="badge bg-warning text-dark">{{$tag->name}}</span>
+            </label>
+        @endforeach
+    </div>
+
     <div class="collapse mt-3" id="imageCollapse">
         <input class="form-control" wire:model.lazy="image" type="file">
     </div>
@@ -23,30 +34,14 @@
 
     <div class="w-100 mt-2 mb-0 d-flex justify-content-between align-items-center ">
         <div class="d-flex justify-content-start align-items-center">
-            <a type="button" data-bs-target="#checklistCollapse" data-bs-toggle="collapse" class="text-dark"><i
+            <a type="button" data-bs-target="#tagsCollapse" data-bs-toggle="collapse" class=" text-dark"><i
+                    class="bi bi-tag-fill" style="font-size: 26px"></i></a>
+            <a type="button" data-bs-target="#checklistCollapse" data-bs-toggle="collapse" class="mx-3 text-dark"><i
                     class="bi bi-card-checklist"
                     style="font-size: 30px"></i></a>
-            <a type="button" data-bs-target="#imageCollapse" data-bs-toggle="collapse" class="mx-3 text-dark"><i
+            <a type="button" data-bs-target="#imageCollapse" data-bs-toggle="collapse" class=" text-dark"><i
                     class="bi bi-image" style="font-size: 26px"></i></a>
         </div>
-        <div class="d-flex  justify-content-center flex-grow-1 align-items-center">
-            <input type="radio" value="white" wire:model.lazy="color" class="btn-check" name="color" id="white"
-                   autocomplete="off">
-            <label class="btn btn-outline-primary mx-1 border-2 color-label rounded-circle"
-                   for="white"></label>
-
-            <input type="radio" value="green" wire:model.lazy="color" class="btn-check" name="color" id="green"
-                   autocomplete="off">
-            <label class="btn btn-outline-success mx-1 border-2 color-label rounded-circle"
-                   for="green"></label>
-
-            <input type="radio" value="red" wire:model.lazy="color" class="btn-check" name="color" id="red"
-                   autocomplete="off">
-            <label class="btn btn-outline-danger mx-1 border-2 color-label rounded-circle"
-                   for="red"></label>
-        </div>
-
-
         <div class="d-flex justify-content-end align-items-center">
             <button class="btn btn-dark text-light" type="submit">ایجاد</button>
         </div>

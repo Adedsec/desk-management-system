@@ -77,6 +77,7 @@ Route::post('/desks', [DeskController::class, 'store'])->name('desks.store');
 Route::get('desks/select/{desk}', [DeskController::class, 'select'])->name('desks.select');
 Route::post('desks/select/{desk}', [DeskController::class, 'update'])->name('desks.update');
 Route::post('desks/send-request/{desk}', [DeskController::class, 'SendRequest'])->name('desks.Send.request');
+Route::get('desks/acceptRequest/{joinRequest}', [UserController::class, 'acceptRequest'])->name('desks.acceptRequest');
 
 //Project Routes
 
@@ -85,6 +86,7 @@ Route::get('/projects/create', [ProjectController::class, 'create'])->name('proj
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('project/{project}/board', [ProjectController::class, 'board'])->name('project.board');
+Route::post('project/{project}/edit-users', [ProjectController::class, 'updateUsers'])->name('project.edit.user');
 
 //Task routes
 

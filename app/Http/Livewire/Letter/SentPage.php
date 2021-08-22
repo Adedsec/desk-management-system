@@ -26,13 +26,23 @@ class SentPage extends Component
 
     public function mount()
     {
-        $this->letters = Auth::user()->activeDesk->letters()->where('user_id', Auth::user()->id)->where('archived', 0)->get();
+        $this->letters = Auth::user()->activeDesk->letters()->latest()->where('user_id', Auth::user()->id)->whereDoesntHave('archiveUsers', function ($q) {
+            $q->where('user_id', Auth::user()->id);
+        })->get();
         $this->desk = Auth::user()->activeDesk;
     }
 
     protected $listeners = [
-        'refreshLetters' => '$refresh'
+        'refreshLetters'
     ];
+
+    public function refreshLetters()
+    {
+        $this->letters = Auth::user()->activeDesk->letters()->latest()->where('user_id', Auth::user()->id)->whereDoesntHave('archiveUsers', function ($q) {
+            $q->where('user_id', Auth::user()->id);
+        })->get();
+
+    }
 
     public function createTag()
     {
@@ -49,35 +59,13 @@ class SentPage extends Component
     }
 
 
-    public function createLetter()
-    {
-        $this->validate([
-            'letter_title' => ['required', 'string', 'max:255'],
-            'letter_body' => ['required', 'string'],
-            'users' => ['required']
-        ]);
-
-        $letter_tmp = $this->desk->letters()->create([
-            'title' => $this->letter_title,
-            'body' => $this->letter_body,
-            'user_id' => Auth::user()->id
-        ]);
-        $letter_tmp->tags()->attach($this->tags);
-        $letter_tmp->users()->attach($this->users);
-        $this->emitSelf('refreshLetters');
-    }
-
-    public function letterCancel()
-    {
-        $this->letter_title = null;
-        $this->letter_body = null;
-    }
-
     public function filter()
     {
-        $this->letters = Auth::user()->activeDesk->letters()
+        $this->letters = Auth::user()->activeDesk->letters()->latest()
             ->where('user_id', Auth::user()->id)
-            ->where('archived', 0)
+            ->whereDoesntHave('archiveUsers', function ($q) {
+                $q->where('user_id', Auth::user()->id);
+            })
             ->where('title', 'like', '%' . $this->filter_text . '%');
 
         if (!empty($this->filter_tags)) {
@@ -92,7 +80,7 @@ class SentPage extends Component
             $this->letters = $this->letters->where('created_at', '<=', $this->filter_end);
         }
         $this->letters = $this->letters->get();
-        $this->emitSelf('refreshLetters');
+        //$this->emitSelf('refreshLetters');
     }
 
     public function render()

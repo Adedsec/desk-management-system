@@ -16,8 +16,6 @@ class Board extends Component
     ];
 
 
-
-
     public function updateListOrder($lists)
     {
         foreach ($lists as $list) {
@@ -42,6 +40,8 @@ class Board extends Component
                 $task->save();
             }
         }
+
+        $this->emit('refreshBoard');
     }
 
     public function render()

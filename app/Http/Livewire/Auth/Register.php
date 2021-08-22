@@ -20,7 +20,7 @@ class Register extends Component
 
     protected $rules = [
         'name' => 'required|string|max:190',
-        'phone_number' => 'required|numeric|digits:11',
+        'phone_number' => 'required|numeric|digits:11|unique:users',
         'email' => 'required|string|max:255|email|unique:users',
         'password' => 'required|string|min:8|confirmed'
     ];

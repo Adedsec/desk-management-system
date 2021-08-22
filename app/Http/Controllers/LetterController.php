@@ -15,7 +15,6 @@ class LetterController extends Controller
 
     public function input()
     {
-
         return view('letter.input');
     }
 
@@ -32,13 +31,13 @@ class LetterController extends Controller
 
     public function archive()
     {
-        $letters = Letter::where('archived', true)->get();
-        return view('letter.input', compact('letters'));
+
+        return view('letter.archive');
     }
 
     public function ToggleArchive(Letter $letter)
     {
-        $letter->toggleArchive();
+        $letter->toggleArchive(Auth::user());
         return redirect()->route('letters.archive')->with('success', 'عملیات با موفقیت انجام شد');
     }
 }

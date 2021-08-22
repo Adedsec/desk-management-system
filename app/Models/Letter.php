@@ -46,19 +46,22 @@ class Letter extends Model
     }
 
 
-    public function archive()
+    public function archiveUsers()
     {
-
+        return $this->belongsToMany(User::class, 'letter_archive', 'letter_id', 'user_id');
     }
 
-    public function toggleArchive()
+    public function isArchived(User $user)
     {
-        if ($this->archived) {
-            $this->archived = false;
-            $this->save();
+        return $user->archivedLetters->contains($this);
+    }
+
+    public function toggleArchive(User $user)
+    {
+        if ($this->isArchived($user)) {
+            $user->archivedLetters()->detach($this);
         } else {
-            $this->archived = true;
-            $this->save();
+            $user->archivedLetters()->attach($this);
         }
     }
 

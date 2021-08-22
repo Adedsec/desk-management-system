@@ -23,7 +23,7 @@
             </div>
 
             <a href="{{route('letters.archive.add',$letter->id)}}" class="btn btn-outline-dark align-baseline">
-                @if ($letter->archived==true)
+                @if ($letter->isArchived(\Illuminate\Support\Facades\Auth::user()))
                     <i class="bi bi-archive pt-1"></i>خارج کردن از آرشیو
                 @else
                     <i class="bi bi-archive pt-1"></i> آرشیو کردن نامه

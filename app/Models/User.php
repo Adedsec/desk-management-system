@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->hasMany(Letter::class);
     }
 
+    public function archivedLetters()
+    {
+        return $this->belongsToMany(Letter::class, 'letter_archive', 'user_id', 'letter_id');
+    }
+
 
     public function desks()
     {
@@ -86,7 +91,7 @@ class User extends Authenticatable
 
     public function joinRequests()
     {
-        return $this->belongsToMany(JoinRequest::class);
+        return $this->hasMany(JoinRequest::class);
     }
 
     public function activeDesk()

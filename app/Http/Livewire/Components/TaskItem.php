@@ -11,6 +11,18 @@ class TaskItem extends Component
     public $checked;
     public $checklist;
 
+    public $users = [];
+
+    protected $rules = [
+        'task.title' => ['required', 'string'],
+        'task.description' => ['string'],
+        'task.deadline' => ['nullable', 'date', 'after:now'],
+    ];
+
+    protected $listeners = [
+        'updateTaskItem' => '$refresh'
+    ];
+
     public function mount()
     {
         $this->checked = $this->task->checked;
@@ -20,7 +32,7 @@ class TaskItem extends Component
 
     public function updated($name, $value)
     {
-        if ($name = 'checked') {
+        if ($name == 'checked') {
             $this->task->checked = $value;
             $this->task->save();
         }
@@ -32,6 +44,13 @@ class TaskItem extends Component
             ? $this->task->progress = 100
             : $this->task->progress += 10;
 
+        $this->task->save();
+    }
+
+    public function updateTask()
+    {
+        dd($this->users);
+        $this->task->users()->sync($this->users);
         $this->task->save();
     }
 

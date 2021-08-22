@@ -178,7 +178,7 @@ return [
         \App\Providers\PermissionServiceProvider::class,
 
 
-],
+    ],
 
     /*
     |--------------------------------------------------------------------------

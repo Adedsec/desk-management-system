@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +45,18 @@ class Desk extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function userTasksCount(User $user)
+    {
+        return $this->tasks()->whereHas('users', function ($q) use ($user) {
+            $q->where('id', $user->id);
+        })->count();
+    }
+
+    public function delayTasksCount()
+    {
+        return $this->tasks()->where('deadline', '<', Carbon::now())->count();
     }
 
 

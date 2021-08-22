@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCheckedToTasksTable extends Migration
+class CreateLetterArchiveTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AddCheckedToTasksTable extends Migration
      */
     public function up()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->boolean('checked')->after('task_list_id')->default(false);
+        Schema::create('letter_archive', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('letter_id');
+
+
+            $table->primary(['user_id', 'letter_id']);
         });
     }
 
@@ -25,8 +29,8 @@ class AddCheckedToTasksTable extends Migration
      */
     public function down()
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->dropColumn('checked');
+        Schema::table('letter_archive', function (Blueprint $table) {
+            //
         });
     }
 }

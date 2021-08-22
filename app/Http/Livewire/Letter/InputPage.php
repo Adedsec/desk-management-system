@@ -16,23 +16,36 @@ class InputPage extends Component
     public $filter_end;
 
     protected $listeners = [
-        'refreshLetters' => '$refresh'
+        'refreshLetters'
     ];
+
+    public function refreshLetters()
+    {
+        $this->letters = Auth::user()->activeDesk->letters()->latest()->whereHas('users', function ($query) {
+            $query->where('user_id', Auth::user()->id);
+        })->whereDoesntHave('archiveUsers', function ($q) {
+            $q->where('user_id', Auth::user()->id);
+        })->get();
+    }
 
     public function mount()
     {
-        $this->letters = Auth::user()->activeDesk->letters()->whereHas('users', function ($query) {
+        $this->letters = Auth::user()->activeDesk->letters()->latest()->whereHas('users', function ($query) {
             $query->where('user_id', Auth::user()->id);
-        })->where('archived', 0)->get();
+        })->whereDoesntHave('archiveUsers', function ($q) {
+            $q->where('user_id', Auth::user()->id);
+        })->get();
 
         $this->desk = Auth::user()->activeDesk;
     }
 
     public function filter()
     {
-        $this->letters = Auth::user()->activeDesk->letters()->whereHas('users', function ($query) {
+        $this->letters = Auth::user()->activeDesk->letters()->latest()->whereHas('users', function ($query) {
             $query->where('user_id', Auth::user()->id);
-        })->where('archived', 0)
+        })->whereDoesntHave('archiveUsers', function ($q) {
+            $q->where('user_id', Auth::user()->id);
+        })
             ->where('title', 'like', '%' . $this->filter_text . '%');
 
         if (!empty($this->filter_tags)) {
@@ -47,7 +60,6 @@ class InputPage extends Component
             $this->letters = $this->letters->where('created_at', '<=', $this->filter_end);
         }
         $this->letters = $this->letters->get();
-        $this->emitSelf('refreshLetters');
     }
 
     public function render()

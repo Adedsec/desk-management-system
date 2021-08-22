@@ -19,7 +19,7 @@ class Index extends Component
     public function mount()
     {
         $this->desk = Auth::user()->activeDesk;
-        $this->tasks = $this->desk->tasks()->orderByDesc('updated_at')->get();
+        $this->tasks = is_null($this->desk) ? [] : $this->desk->tasks()->orderByDesc('updated_at')->get();
     }
 
     public function filter()

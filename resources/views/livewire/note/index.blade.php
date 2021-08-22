@@ -46,7 +46,7 @@
 
     <div class="d-flex mt-5 flex-wrap flex-row  justify-content-center align-items-start">
         @foreach($notes as $key=>$note)
-            <livewire:components.note :note="$note"/>
+            <livewire:components.note :note="$note" :key="'note'.$note->id"/>
         @endforeach
     </div>
 

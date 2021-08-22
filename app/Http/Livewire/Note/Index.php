@@ -19,7 +19,7 @@ class Index extends Component
     public $tag_name;
 
     protected $listeners = [
-        'refreshNotes' => '$refresh'
+        'refreshNotes'
     ];
 
     protected $rules = [
@@ -29,6 +29,12 @@ class Index extends Component
     public function mount()
     {
         $this->notes = Auth::user()->notes->where('desk_id', $this->desk->id);
+    }
+
+    public function refreshNotes()
+    {
+        $this->notes = Auth::user()->notes->where('desk_id', $this->desk->id);
+
     }
 
 
@@ -41,6 +47,7 @@ class Index extends Component
         ]);
 
         $this->emitSelf('refreshNotes');
+        $this->emit('refreshCreateForm');
 
         $this->tag_name = '';
     }

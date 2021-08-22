@@ -92,11 +92,10 @@ class DeskController extends Controller
 
 
         if (User::all()->contains('email', $email)) {
+
             //send JoinRequest
-
-
             $user = User::where('email', $email)->first();
-            if (JoinRequest::where('desk_id', $desk->id)->where('user_id', $user->id))
+            if (!(JoinRequest::all()->where('desk_id', $desk->id)->where('user_id', $user->id)->isEmpty()))
                 return back()->with('error', 'درخواست قبلا ارسال شده است');
             JoinRequest::create([
                 'sender_id' => Auth::user()->id,
