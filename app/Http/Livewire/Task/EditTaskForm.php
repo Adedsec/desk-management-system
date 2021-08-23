@@ -26,15 +26,27 @@ class EditTaskForm extends Component
         'task.deadline' => ['nullable', 'date', 'after:now'],
     ];
 
+    protected $listeners = [
+        'updateTaskItem' => '$refresh'
+    ];
+
     public function mount()
     {
         $this->checked = $this->task->checked;
         $this->checklist = $this->task->checklist;
+
+        foreach ($this->task->tags as $tag) {
+            $this->tags[$tag->id] = true;
+        }
+        foreach ($this->task->users as $user) {
+            $this->users[$user->id] = true;
+        }
+
     }
 
     public function deleteAttachment($id)
     {
-        //$this->task->attachments()->detach();
+
         $attach = Attachment::find($id);
         Storage::delete($attach->link);
         $attach->delete();
@@ -51,9 +63,9 @@ class EditTaskForm extends Component
 
     public function updateTask()
     {
-        if (!empty($this->users))
-            $this->task->users()->sync($this->users);
-        $this->task->tags()->sync($this->tags);
+
+        $this->task->users()->sync(array_keys(array_filter($this->users)));
+        $this->task->tags()->sync(array_keys(array_filter($this->tags)));
 
         if (!empty($this->attachment)) {
             foreach ($this->attachment as $item) {

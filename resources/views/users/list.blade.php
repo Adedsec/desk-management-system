@@ -21,7 +21,7 @@
                         <td> {{$user->email}} </td>
                         <td>
                             @foreach ($user->roles as $role)
-                                <span class="badge badge-secondary"> {{$role->persian_name}} </span>
+                                <span class="badge bg-info"> {{$role->persian_name}} </span>
 
                         @endforeach
                         <td><a href="{{route('users.edit',[$user->id])}}"> تغییر </a></td>

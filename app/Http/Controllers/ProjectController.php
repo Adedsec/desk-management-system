@@ -79,4 +79,11 @@ class ProjectController extends Controller
             'users.*' => ['exists:users,id']
         ]);
     }
+
+    public function delete(Project $project)
+    {
+        $project->tasks()->delete();
+        $project->delete();
+        return redirect()->route('home')->with('success', 'پروژه با موفقیت حذف شد');
+    }
 }

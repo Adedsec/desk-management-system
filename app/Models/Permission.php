@@ -13,4 +13,15 @@ class Permission extends Model
     {
         return $this->belongsToMany(Role::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+
+    public function desks()
+    {
+        return $this->belongsToMany(Desk::class, 'permission_user', 'permission_id', 'desk_id');
+    }
 }

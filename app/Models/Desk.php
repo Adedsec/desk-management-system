@@ -47,6 +47,21 @@ class Desk extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function joinRequests()
+    {
+        return $this->hasMany(JoinRequest::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'desk_id', 'role_id');
+    }
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'permission_user', 'desk_id', 'permission_id');
+    }
+
     public function userTasksCount(User $user)
     {
         return $this->tasks()->whereHas('users', function ($q) use ($user) {

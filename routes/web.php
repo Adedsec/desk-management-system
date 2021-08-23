@@ -45,6 +45,8 @@ Route::get('password/forget', [ForgotPasswordController::class, 'showLinkRequest
 Route::post('password/forget', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('auth.password.forget');
 Route::get('password/reset', [ResetPasswordController::class, 'showResetForm'])->name('auth.password.reset.form');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('auth.password.reset');
+Route::get('password/change', [UserController::class, 'changePasswordForm'])->name('auth.password.change.form');
+Route::post('password/change', [UserController::class, 'changePassword'])->name('auth.password.change');
 // Google Login Routes
 Route::get('redirect/{provider}', [SocialController::class, 'redirectToProvider'])->name('auth.login.provider.redirect');
 Route::get('auth/{provider}/callback', [SocialController::class, 'callbackProvider'])->name('auth.login.provider.callback');
@@ -78,6 +80,7 @@ Route::get('desks/select/{desk}', [DeskController::class, 'select'])->name('desk
 Route::post('desks/select/{desk}', [DeskController::class, 'update'])->name('desks.update');
 Route::post('desks/send-request/{desk}', [DeskController::class, 'SendRequest'])->name('desks.Send.request');
 Route::get('desks/acceptRequest/{joinRequest}', [UserController::class, 'acceptRequest'])->name('desks.acceptRequest');
+Route::get('desks/deleteRequest/{joinRequest}', [UserController::class, 'deleteRequest'])->name('desks.deleteRequest');
 
 //Project Routes
 
@@ -87,6 +90,7 @@ Route::post('/projects', [ProjectController::class, 'store'])->name('projects.st
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
 Route::get('project/{project}/board', [ProjectController::class, 'board'])->name('project.board');
 Route::post('project/{project}/edit-users', [ProjectController::class, 'updateUsers'])->name('project.edit.user');
+Route::get('project/{project}/delete', [ProjectController::class, 'delete'])->name('project.delete');
 
 //Task routes
 

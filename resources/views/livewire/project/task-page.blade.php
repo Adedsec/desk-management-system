@@ -2,14 +2,40 @@
     <div class="col-md-3">
         <div class="card h-100">
             <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">
+                        پروژه:
+                        {{$project->name}}
+                        <a href="#editNameModal" data-bs-toggle="modal"><span class="text-primary"><i
+                                    class="bi bi-pencil"></i></span></a>
+                    </h5>
 
-                <h5 class="card-title">
-                    پروژه:
-                    {{$project->name}}
+                    @role('admin')
+                    <button data-bs-target="#deleteProjectModal" data-bs-toggle="modal"
+                            class="btn btn-danger text-light">حذف پروژه
+                    </button>
+                    <div class="modal" id="deleteProjectModal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">آیا از حذف پروژه اطمینان دارید ؟</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <p>درصورت حذف پروژه تمامی وظایف مربوط به آن حذف خواهد شد !</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو
+                                    </button>
+                                    <a href="{{route('project.delete',$project->id)}}" type="button"
+                                       class="btn btn-danger text-light">حذف</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                    <a href="#editNameModal" data-bs-toggle="modal"><span class="text-primary"><i
-                                class="bi bi-pencil"></i></span></a>
-                </h5>
+                    @endrole
+                </div>
+
 
                 <p class="card-title mt-4">
                     وضعیت کلی :
@@ -17,7 +43,8 @@
                 <div class="progress mt-3" style="height: 5px">
                     <div class="progress-bar bg-success" role="progressbar"
                          title="انجام شده : {{$project->generalProgress()}}%"
-                         style="width: {{$project->generalProgress()}}%" aria-valuenow="{{$project->generalProgress()}}"
+                         style="width: {{$project->generalProgress()}}%"
+                         aria-valuenow="{{$project->generalProgress()}}"
                          aria-valuemin="0"
                          aria-valuemax="100"></div>
                     <div class="progress-bar bg-danger" title="دارای تاخبر : {{$project->delayedProgress()}}%"
@@ -49,7 +76,8 @@
                 <div class="d-flex justify-content-start align-items-center flex-wrap">
                     @foreach($project->users as $user)
                         <div class="d-flex m-2 flex-column justify-content-center align-items-center">
-                            <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px" height="40px">
+                            <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px"
+                                 height="40px">
                             <p class="small">{{$user->name}}</p>
                         </div>
                     @endforeach

@@ -32,22 +32,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="card shadow">
-                    <div class="card-header bg-white">
-                        طرح فعلی میز کار
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            شما هیچ طرح فعالی ندارید !
-                        </p>
-                        <div class="d-flex align-items-center justify-content-end">
-                            <a href="#" class="btn btn-outline-success "> ارتقاء طرح</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row  mt-2">
                 <div class="card shadow">
                     <div class="card-header bg-white">
@@ -73,56 +57,27 @@
                 <div class="card-body">
                     <div class="row">
 
-                        @if (true)
+                        @if (!$desk->joinRequests->isEmpty())
                             <p class="card-text">
                                 درخواست های فعال
                             </p>
                             <ul class="list-group scroll-list">
-                                <li class="list-group-item">
-
-                                    <div class="d-flex align-items-center justify-content-around">
-                                        <div class="">
-                                            نام
+                                @foreach($desk->joinRequests as $request)
+                                    <li class="list-group-item">
+                                        <div class="d-flex align-items-center justify-content-around">
+                                            <div class="">
+                                                {{$request->user->name}}
+                                            </div>
+                                            <div>
+                                                {{$request->user->email}}
+                                            </div>
+                                            <a href="{{route('desks.deleteRequest',$request->id)}}"
+                                               class="link-primary">
+                                                لغو درخواست
+                                            </a>
                                         </div>
-                                        <div>
-                                            arefmaddah@gmail.com
-                                        </div>
-                                        <a href="#" class="link-primary">
-                                            لغو درخواست
-                                        </a>
-                                    </div>
-
-                                </li>
-                                <li class="list-group-item">
-
-                                    <div class="d-flex align-items-center justify-content-around">
-                                        <div class="">
-                                            نام
-                                        </div>
-                                        <div>
-                                            arefmaddah@gmail.com
-                                        </div>
-                                        <a href="#" class="link-primary">
-                                            لغو درخواست
-                                        </a>
-                                    </div>
-
-                                </li>
-                                <li class="list-group-item">
-
-                                    <div class="d-flex align-items-center justify-content-around">
-                                        <div class="">
-                                            نام
-                                        </div>
-                                        <div>
-                                            arefmaddah@gmail.com
-                                        </div>
-                                        <a href="#" class="link-primary">
-                                            لغو درخواست
-                                        </a>
-                                    </div>
-
-                                </li>
+                                    </li>
+                                @endforeach
                             </ul>
                         @else
                             <p class="card-text">
@@ -158,37 +113,7 @@
 
                     </div>
                     <hr>
-                    <div class="row m-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                ظرفیت مجاز اعضا :
-                                            </div>
-                                            <div>
-                                                25
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                ظرفیت باقی مانده :
-                                            </div>
-                                            <div>
-                                                5
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="d-flex mt-3 justify-content-end align-items-center">
-                                    <a href="#" class="btn btn-outline-success "> ارتقاء طرح</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

@@ -18,6 +18,7 @@ trait HasPermissions
     {
         $permissions = $this->getAllPermissions($permissions);
         if ($permissions->isEmpty()) return $this;
+        $permissions = $this->generateRolesArray($permissions);
         $this->permissions()->syncWithoutDetaching($permissions);
         return $this;
     }
@@ -25,6 +26,7 @@ trait HasPermissions
     public function withdrawPermissions(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
+        $permissions = $this->generateRolesArray($permissions);
         $this->permissions()->detach($permissions);
         return $this;
     }
@@ -32,6 +34,7 @@ trait HasPermissions
     public function refreshPermissions(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
+        $permissions = $this->generateRolesArray($permissions);
         $this->permissions()->sync($permissions);
         return $this;
 
@@ -39,13 +42,18 @@ trait HasPermissions
 
     public function hasPermission(Permission $permission)
     {
-        return $this->hasPermissionsThroughRole($permission) || $this->permissions()->contains($permission);
+        return $this->hasPermissionsThroughRole($permission) || ($this->permissions->contains($permission) &&
+                $this->permissions()->withPivot('desk_id')->where('name', $permission->name)->first()->pivot->desk_id == $this->activeDesk->id
+            );
     }
 
     protected function hasPermissionsThroughRole(Permission $permission)
     {
         foreach ($permission->roles() as $role) {
-            if ($this->roles->contains($role)) return true;
+            if ($this->roles->contains($role)
+                &&
+                $this->roles()->withPivot('desk_id')->where('name', $role->name)->first()->pivot->desk_id == $this->activeDesk->id)
+                return true;
         }
 
         return false;
@@ -55,5 +63,16 @@ trait HasPermissions
     {
 
         return Permission::whereIn('name', Arr::flatten($permissions))->get();
+    }
+
+    protected function generatePermissionsArray($permissions)
+    {
+        $result = [];
+        $desk = $this->activeDesk;
+        foreach ($permissions as $permission) {
+            $result[$permission->id] = ['desk_id' => $desk->id];
+        }
+        return $result;
+
     }
 }

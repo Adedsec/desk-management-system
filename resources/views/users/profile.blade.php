@@ -71,6 +71,10 @@
                     <div>
                         <a href="#updateModal" data-bs-toggle="modal" class="btn btn-outline-primary">تغییر اطلاعات</a>
                     </div>
+                    <div>
+                        <a href="{{route('auth.password.change.form')}}" class="btn mx-2 btn-outline-danger">تغییر
+                            رمزعبور</a>
+                    </div>
                 </div>
             </div>
         </div>

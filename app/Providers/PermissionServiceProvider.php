@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Permission;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;

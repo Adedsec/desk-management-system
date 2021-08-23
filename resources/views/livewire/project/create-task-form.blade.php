@@ -62,6 +62,7 @@
         <div class="form-group text-right mt-2">
             <label class="text-right" style="left: auto" for="deadline">مهلت انجام : </label>
             <input type="datetime-local" wire:model.defer="deadline" class="form-control">
+
         </div>
     </div>
 
@@ -124,5 +125,6 @@
                 type="submit">ذخیره
         </button>
     </div>
+
 
 </form>

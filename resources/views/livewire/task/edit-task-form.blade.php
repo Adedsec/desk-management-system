@@ -96,7 +96,8 @@
     </div>
 
     <div class="collapse mt-2 " id="checklistCollapse{{$task->id}}">
-        <livewire:components.check-list-show :checklist="$checklist" :task="$task"/>
+        {{--        <livewire:components.check-list-show :checklist="$checklist" :task="$task"/>--}}
+        <livewire:components.check-list-show-notes :note="$task"/>
     </div>
 
     <div class="form-group mt-2 collapse" id="usersCollapse{{$task->id}}">
@@ -109,10 +110,10 @@
                     <li class="list-group-item text-right rounded-0">
 
                         <label for="">
-                            <input type="checkbox" value="{{$user->id}}" wire:model.defer="users"
+                            <input type="checkbox" value="{{$user->id}}" wire:model.defer="users.{{$user->id}}"
                                    {{$task->users->contains($user) ? 'checked' : ''}}
                                    class="form-check-input form-check-inline">
-                            {{$user->name}}
+                            {{$user->id == \Illuminate\Support\Facades\Auth::user()->id ? 'خودم' : $user->name }}
                         </label>
                     </li>
                 @endforeach
@@ -130,7 +131,8 @@
                 @foreach(\App\Models\Tag::getTaskAvailableTags() as $tag)
                     <li class="list-group-item text-right rounded-0 ">
                         <label for="">
-                            <input type="checkbox" value="{{$tag->id}}" wire:model.defer="tags"
+                            <input type="checkbox" value="{{$tag->id}}" wire:model.defer="tags.{{$tag->id}}"
+                                   id="tag-{{$tag->id}}"
                                    {{$task->tags->contains($tag) ? 'checked' : ''}}
                                    class="form-check-input form-check-inline">
                             <span class="badge bg-info p-1">{{$tag->name}}</span>

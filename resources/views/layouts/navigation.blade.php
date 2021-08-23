@@ -8,7 +8,7 @@
 
         @auth
 
-            @if (\Illuminate\Support\Facades\Auth::user()->hasDesk())
+            @if (\Illuminate\Support\Facades\Auth::user()->hasDesk() && !is_null(\Illuminate\Support\Facades\Auth::user()->activeDesk))
                 <div class=" nav-item dropdown pr-3 ">
                     <button class="btn btn-dark dropdown-toggle" type="button" id="deskDropdown"
                             data-bs-toggle="dropdown"
@@ -89,16 +89,27 @@
                         </li>
                     @endif
                 @else
+
+                    @role('admin')
                     <li class="nav-item py-0 ">
                         <a class="nav-link py-0" href="{{route('desks.setting')}}">
                             <i class="bi bi-gear-wide" style="font-size: 1.5rem;"></i>
                         </a>
                     </li>
+                    @endrole
+
                     <li class="nav-item dropdown text-right">
-                        <a id="navbarDropdown" class="nav-link py-0 dropdown-toggle align-baseline" role="button"
+                        <a id="navbarDropdown" class="nav-link py-0 dropdown-toggle align-baseline position-relative "
+                           role="button"
                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                            @if (\Illuminate\Support\Facades\Auth::user()->joinRequests->count())
 
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{\Illuminate\Support\Facades\Auth::user()->joinRequests->count()}}
+                            </span>
+                            @endif
                         </a>
 
                         <div class="dropdown-menu text-right dropdown-menu-right" aria-labelledby="navbarDropdown">
