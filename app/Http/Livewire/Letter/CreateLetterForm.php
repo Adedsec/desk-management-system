@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Letter;
 
+use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -16,7 +17,19 @@ class CreateLetterForm extends Component
     public $letter_body;
     public $users = [];
 
+    public $available_tags;
+
     public $tags = [];
+
+    protected $listeners = [
+        'refreshLetters'
+    ];
+
+
+    public function refreshLetters()
+    {
+        $this->available_tags = Tag::getLetterAvailableTags();
+    }
 
 
     public function rules()
@@ -31,6 +44,7 @@ class CreateLetterForm extends Component
     public function mount()
     {
         $this->desk = Auth::user()->activeDesk;
+        $this->available_tags = Tag::getLetterAvailableTags();
     }
 
     public function createLetter()
@@ -50,6 +64,8 @@ class CreateLetterForm extends Component
             $letter_tmp->tags()->attach($this->tags);
             $letter_tmp->users()->attach($this->users);
             $this->emit('refreshLetters');
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'createLetterModal']);
+
 
         } catch (\Exception $exception) {
             session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');

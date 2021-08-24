@@ -40,14 +40,17 @@
         <div class="d-flex justify-content-start align-items-baseline flex-wrap">
 
             @foreach($desk->users as $user)
-                <div class="form-group">
-                    <input type="checkbox" wire:model.defer="users" value="{{$user->id}}"
-                           id="tag{{$user->id}}"
-                           class="form-check-inline form-check-input">
-                    <label class="" for="tag{{$user->id}}">
-                        {{$user->name}}
-                    </label>
-                </div>
+
+                @if ($user->id != \Illuminate\Support\Facades\Auth::user()->id)
+                    <div class="form-group">
+                        <input type="checkbox" wire:model.defer="users" value="{{$user->id}}"
+                               id="tag{{$user->id}}"
+                               class="form-check-inline form-check-input">
+                        <label class="" for="tag{{$user->id}}">
+                            {{$user->name}}
+                        </label>
+                    </div>
+                @endif
             @endforeach
         </div>
     </div>
@@ -55,7 +58,7 @@
     <div class="collapse mt-3 " id="tagsCollapse">
         <p>برچسب ها : </p>
         <div class="d-flex justify-content-start align-items-baseline flex-wrap">
-            @foreach(\App\Models\Tag::getLetterAvailableTags() as $tag)
+            @foreach($available_tags as $tag)
                 <div class="form-group">
                     <input type="checkbox" wire:model.defer="tags" value="{{$tag->id}}"
                            id="tag{{$tag->id}}"

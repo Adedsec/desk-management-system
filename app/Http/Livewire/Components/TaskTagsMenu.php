@@ -31,6 +31,7 @@ class TaskTagsMenu extends Component
                 'name' => $this->name,
                 'type' => $this->type
             ]);
+            $this->emit('refreshBoard');
             session()->flash('success', 'برچسب با موفقیت ایجاد شد');
 
         } catch (\Exception $exception) {

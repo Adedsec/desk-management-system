@@ -16,6 +16,17 @@ class Index extends Component
     public $filter_me;
     public $filter_tags = [];
 
+
+    protected $listeners = [
+        'taskAdded'
+    ];
+
+
+    public function taskAdded()
+    {
+        $this->tasks = is_null($this->desk) ? [] : $this->desk->tasks()->orderByDesc('updated_at')->get();
+    }
+
     public function mount()
     {
         $this->desk = Auth::user()->activeDesk;

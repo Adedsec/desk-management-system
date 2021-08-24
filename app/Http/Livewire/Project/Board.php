@@ -12,7 +12,8 @@ class Board extends Component
 
     protected $listeners = [
         'listAdded' => '$refresh',
-        'refreshBoard' => '$refresh'
+        'refreshBoard' => '$refresh',
+        'taskAdded' => '$refresh'
     ];
 
 

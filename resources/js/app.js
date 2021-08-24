@@ -1,6 +1,22 @@
 require('./bootstrap');
 require('livewire-sortable')
 
+import {Modal} from "bootstrap";
+
+window.addEventListener('close-modal', event => {
+    var myModalEl = document.getElementById(event.detail.id);
+    var modal = Modal.getOrCreateInstance(myModalEl)
+    modal.hide();
+
+})
+
+window.addEventListener('close-modal-board', event => {
+    var myModalEl = document.getElementById(event.detail.id);
+    var modal = Modal.getOrCreateInstance(myModalEl)
+    modal.hide();
+
+})
+
 // let Swal = require('sweetalert2');
 //
 // const Toast = Swal.mixin({

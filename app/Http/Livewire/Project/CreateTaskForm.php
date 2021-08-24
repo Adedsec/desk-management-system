@@ -90,6 +90,11 @@ class CreateTaskForm extends Component
 
             $task->save();
 
+            $this->emitUp('taskAdded');
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'createTaskModal']);
+            $this->dispatchBrowserEvent('close-modal-board', ['id' => 'createTaskModal' . $this->list->id ?? 0]);
+
+
             return back();
         } catch (\Exception $exception) {
             session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');

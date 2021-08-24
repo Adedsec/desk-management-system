@@ -60,7 +60,6 @@ class CreateTaskForm extends Component
     {
         $this->validate();
 
-
         try {
 
             $this->project = Project::find($this->project);
@@ -97,8 +96,12 @@ class CreateTaskForm extends Component
             $task->tags()->attach($this->tags);
 
             $task->save();
+            $this->emitUp('taskAdded');
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'createTaskModal']);
 
-            return back();
+
+            return redirect()->back();
+
         } catch (\Exception $exception) {
             session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }

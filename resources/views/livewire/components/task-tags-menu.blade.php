@@ -26,7 +26,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="" wire:submit.prevent="store">
-                        <input type="text" wire:model.lazy="name" value="name" class="form-control form-control-sm"
+                        <input type="text" wire:model.defer="name" value="name" class="form-control form-control-sm"
                                placeholder="نام برچسب">
                         <button type="submit" class="btn btn-dark mt-3" data-bs-dismiss="modal">ذخیره</button>
                     </form>

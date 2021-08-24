@@ -21,7 +21,7 @@
                     </a>
                 @endcan
             @else
-                @can('manage_tasks')
+                @can('manage_task')
                     <button class="btn btn-outline-dark mx-3" data-bs-target="#createTaskModal" data-bs-toggle="modal">
                         <i class="bi bi-plus-lg"></i>
                         ایجاد وظیفه

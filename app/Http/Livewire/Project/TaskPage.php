@@ -21,11 +21,18 @@ class TaskPage extends Component
 
     protected $listeners = [
         //'updateTaskItem' => '$refresh'
+        'taskAdded'
     ];
 
     protected $rules = [
         'project.name' => ['required', 'string', 'max:255']
     ];
+
+    public function taskAdded()
+    {
+        $this->tasks = $this->project->tasks()->orderByDesc('updated_at')->get();
+
+    }
 
     public function mount()
     {

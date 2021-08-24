@@ -140,7 +140,7 @@
 
     {{--            create Task modal--}}
 
-    <div class="modal fade" id="createTaskModal{{is_null($list) ? 0 :$list->id}}" tabindex="-1"
+    <div class="modal fade createTaskModal" id="createTaskModal{{is_null($list) ? 0 :$list->id}}" tabindex="-1"
          aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

@@ -30,6 +30,8 @@ class SentPage extends Component
             $q->where('user_id', Auth::user()->id);
         })->get();
         $this->desk = Auth::user()->activeDesk;
+
+
     }
 
     protected $listeners = [
@@ -57,8 +59,9 @@ class SentPage extends Component
                 'type' => 'letter'
             ]);
 
-            $this->emitSelf('refreshLetters');
             $this->tag_name = '';
+
+            return redirect()->route('letters.sent');
 
         } catch (\Exception $exception) {
             session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
