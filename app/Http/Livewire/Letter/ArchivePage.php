@@ -35,21 +35,27 @@ class ArchivePage extends Component
     public function filter()
     {
 
-        $this->letters = Auth::user()->archivedLetters()->where('desk_id', $this->desk->id)
-            ->where('title', 'like', '%' . $this->filter_text . '%');
+        try {
+            $this->letters = Auth::user()->archivedLetters()->where('desk_id', $this->desk->id)
+                ->where('title', 'like', '%' . $this->filter_text . '%');
 
-        if (!empty($this->filter_tags)) {
-            $this->letters = $this->letters->whereHas('tags', function ($query) {
-                $query->whereIn('tag_id', $this->filter_tags);
-            });
+            if (!empty($this->filter_tags)) {
+                $this->letters = $this->letters->whereHas('tags', function ($query) {
+                    $query->whereIn('tag_id', $this->filter_tags);
+                });
+            }
+            if (!is_null($this->filter_start)) {
+                $this->letters = $this->letters->where('created_at', '>=', $this->filter_start);
+            }
+            if (!is_null($this->filter_end)) {
+                $this->letters = $this->letters->where('created_at', '<=', $this->filter_end);
+            }
+            $this->letters = $this->letters->get();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
-        if (!is_null($this->filter_start)) {
-            $this->letters = $this->letters->where('created_at', '>=', $this->filter_start);
-        }
-        if (!is_null($this->filter_end)) {
-            $this->letters = $this->letters->where('created_at', '<=', $this->filter_end);
-        }
-        $this->letters = $this->letters->get();
+
     }
 
     public function render()

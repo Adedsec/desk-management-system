@@ -19,12 +19,19 @@ class CreateListForm extends Component
     public function store()
     {
         $this->validate();
-        $order = $this->project->lastListOrder() + 1;
-        $this->project->lists()->create([
-            'title' => $this->title,
-            'order' => $order,
-        ]);
-        $this->emit('listAdded');
+
+        try {
+            $order = $this->project->lastListOrder() + 1;
+            $this->project->lists()->create([
+                'title' => $this->title,
+                'order' => $order,
+            ]);
+            $this->emit('listAdded');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
 

@@ -22,28 +22,40 @@ class CheckListShow extends Component
             'item' => 'required|string'
         ]);
 
-        if (is_null($this->checklist)) {
-            $this->checklist = \App\Models\CheckList::create();
+
+        try {
+            if (is_null($this->checklist)) {
+                $this->checklist = \App\Models\CheckList::create();
+            }
+            $this->checklist->items()->create([
+                'checked' => 0,
+                'content' => $this->item,
+                'order' => $this->checklist->lastOrder() + 1
+            ]);
+            $this->item = '';
+            $this->task->check_list_id = $this->checklist->id;
+            $this->task->save();
+            $this->emitSelf('refresh');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
         }
-        $this->checklist->items()->create([
-            'checked' => 0,
-            'content' => $this->item,
-            'order' => $this->checklist->lastOrder() + 1
-        ]);
-        $this->item = '';
-        $this->task->check_list_id = $this->checklist->id;
-        $this->task->save();
-        $this->emitSelf('refresh');
+
 
     }
 
 
-
-
     public function deleteItem($id)
     {
-        $this->checklist->items()->find($id)->delete();
-        $this->emitSelf('refresh');
+
+        try {
+
+            $this->checklist->items()->find($id)->delete();
+            $this->emitSelf('refresh');
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     public function render()

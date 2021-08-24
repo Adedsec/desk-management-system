@@ -17,12 +17,15 @@ class ProjectController extends Controller
         $this->middleware('auth');
     }
 
+    //show project index page --->shows live wire component : Project.TasksPage
     public function index()
     {
         $projects = Project::all();
         return view('project.index', compact('projects'));
     }
 
+
+    //shows create project form
     public function create()
     {
         if (Gate::allows('manage_project')) {
@@ -35,43 +38,61 @@ class ProjectController extends Controller
     }
 
 
+    //create new project
     public function store(Request $request)
     {
-        //storing form data
         $this->validateForm($request);
-        $data = array_merge($request->except('_token', 'users'), ['admin_id' => Auth::user()->id]);
-        $project = Auth::user()->activeDesk->projects()->create($data);
 
-        //check if image exists and upload it
-        if ($request->has('image')) {
-            $file = $request->file('image');
-            $name = 'project_' . $project->id . '.' . $file->extension();
-            $path = 'project/';
-            Storage::disk('public')->putFileAs($path, $file, $name);
-            $image = Storage::url($path . $name);
-            $project->image = $image;
-            $project->save();
+        try {
+
+            //storing form data
+            $data = array_merge($request->except('_token', 'users'), ['admin_id' => Auth::user()->id]);
+            $project = Auth::user()->activeDesk->projects()->create($data);
+
+            //check if image exists and upload it
+            if ($request->has('image')) {
+                $file = $request->file('image');
+                $name = 'project_' . $project->id . '.' . $file->extension();
+                $path = 'project/';
+                Storage::disk('public')->putFileAs($path, $file, $name);
+                $image = Storage::url($path . $name);
+                $project->image = $image;
+                $project->save();
+            }
+            //add users to project
+            $project->users()->attach(Auth::user()->id);
+            $project->users()->attach($request->get('users'));
+            return redirect()->route('projects.index')->with('success', 'پروژه جدید با موفقیت ایجاد شد ');
+        } catch (\Exception $exception) {
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
-        //add users to project
-        $project->users()->attach(Auth::user()->id);
-        $project->users()->attach($request->get('users'));
-        return redirect()->route('projects.index')->with('success', 'پروژه جدید با موفقیت ایجاد شد ');
+
     }
 
+
+    //show project index page --->shows live wire component : Project.TasksPage
     public function show(Project $project)
     {
         return view('project.index', compact('project'));
     }
 
+
+    //show project board page --->shows live wire component : Project.Board
     public function board(Project $project)
     {
         return view('project.board', compact('project'));
     }
 
+    //update users of project
     public function updateUsers(Request $request, Project $project)
     {
-        $project->users()->sync($request->get('users'));
-        return back()->with('success', 'عملیات با موفقیت انجام شد');
+        try {
+
+            $project->users()->sync($request->get('users'));
+            return back()->with('success', 'عملیات با موفقیت انجام شد');
+        } catch (\Exception $exception) {
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
     }
 
     private function validateForm(Request $request)
@@ -86,6 +107,7 @@ class ProjectController extends Controller
         ]);
     }
 
+    //delete project
     public function delete(Project $project)
     {
         $project->tasks()->delete();

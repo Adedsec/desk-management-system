@@ -18,30 +18,45 @@ class Board extends Component
 
     public function updateListOrder($lists)
     {
-        foreach ($lists as $list) {
-            if ($list['value'] != '0') {
-                $tmp = $this->project->lists()->find($list['value']);
-                $tmp->order = $list['order'];
-                $tmp->save();
+
+        try {
+            foreach ($lists as $list) {
+                if ($list['value'] != '0') {
+                    $tmp = $this->project->lists()->find($list['value']);
+                    $tmp->order = $list['order'];
+                    $tmp->save();
+                }
             }
+            return redirect()->route('project.board', $this->project->id);
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
-        return redirect()->route('project.board', $this->project->id);
+
 
     }
 
     public function updateTaskOrder($lists)
     {
-        foreach ($lists as $list) {
-            $tmp = $this->project->lists()->find($list['value']);
-            foreach ($list['items'] as $item) {
-                $task = Task::find($item['value']);
-                $task->task_list_id = $tmp->id ?? null;
-                $task->order = $item['order'];
-                $task->save();
+
+        try {
+            foreach ($lists as $list) {
+                $tmp = $this->project->lists()->find($list['value']);
+                foreach ($list['items'] as $item) {
+                    $task = Task::find($item['value']);
+                    $task->task_list_id = $tmp->id ?? null;
+                    $task->order = $item['order'];
+                    $task->save();
+                }
             }
+
+            $this->emit('refreshBoard');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
 
-        $this->emit('refreshBoard');
+
     }
 
     public function render()

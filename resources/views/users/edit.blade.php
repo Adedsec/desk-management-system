@@ -11,6 +11,7 @@
             @forelse ($roles as $role)
                 <div class="custom-control custom-checkbox ">
                     <input type="checkbox" name='roles[]'
+                           {{$user->id == \Illuminate\Support\Facades\Auth::user()->activeDesk->admin_id ? 'disabled' :''}}
                            {{$user->roles->contains($role) ? 'checked' : ''}}
                            value="{{$role->name}}"
                            class="form-check-input" id="{{'role' . $role->id}}">

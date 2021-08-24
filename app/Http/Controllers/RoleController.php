@@ -9,19 +9,31 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
+
+    //show roles index page
     public function index()
     {
         $roles = Auth::user()->activeDesk->roles;
         return view('roles.list', compact('roles'));
     }
 
+
+    //store new Role
     public function store(Request $request)
     {
 
         $this->validateForm($request);
 
-        Auth::user()->activeDesk->roles()->create($request->only(['name', 'persian_name']));
-        return back()->with('success', 'نقش جدید باموفقیت ایجاد شد');
+
+        try {
+            Auth::user()->activeDesk->roles()->create($request->only(['name', 'persian_name']));
+            return back()->with('success', 'نقش جدید باموفقیت ایجاد شد');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
 
     }
 
@@ -33,6 +45,7 @@ class RoleController extends Controller
         ]);
     }
 
+    //Show Edit Role Form
     public function edit(Role $role)
     {
         $permissions = Permission::all();
@@ -41,18 +54,36 @@ class RoleController extends Controller
 
     }
 
+
+    //Update Role
+
     public function update(Request $request, Role $role)
     {
         $this->validateForm($request);
-        $role->update($request->only(['name', 'persian_name']));
-        $role->refreshPermissions($request->only('permissions'));
-        return back()->with('success', 'عملیات با موفقیت انجام شد ');
+
+        try {
+            $role->update($request->only(['name', 'persian_name']));
+            $role->refreshPermissions($request->only('permissions'));
+            return back()->with('success', 'عملیات با موفقیت انجام شد ');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
+
+    //delete Role
     public function delete(Role $role)
     {
-        $role->delete();
+        try {
+            $role->delete();
+            return back()->with('success', 'نقش موردنظر حذف شد');
+        } catch (\Exception $e) {
 
-        return back()->with('success', 'نقش موردنظر حذف شد');
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 }

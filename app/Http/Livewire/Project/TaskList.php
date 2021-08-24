@@ -19,8 +19,15 @@ class TaskList extends Component
 
     public function deleteList()
     {
-        $this->list->delete();
-        $this->emit('listAdded');
+
+        try {
+            $this->list->delete();
+            $this->emit('listAdded');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function render()

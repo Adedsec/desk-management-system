@@ -41,13 +41,20 @@ class CreateLetterForm extends Component
             'users' => ['required']
         ]);
 
-        $letter_tmp = $this->desk->letters()->create([
-            'title' => $this->letter_title,
-            'body' => $this->letter_body,
-            'user_id' => Auth::user()->id
-        ]);
-        $letter_tmp->tags()->attach($this->tags);
-        $letter_tmp->users()->attach($this->users);
+        try {
+            $letter_tmp = $this->desk->letters()->create([
+                'title' => $this->letter_title,
+                'body' => $this->letter_body,
+                'user_id' => Auth::user()->id
+            ]);
+            $letter_tmp->tags()->attach($this->tags);
+            $letter_tmp->users()->attach($this->users);
+            $this->emit('refreshLetters');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function letterCancel()

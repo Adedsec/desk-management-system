@@ -28,21 +28,33 @@ class CheckList extends Component
     public function addItem()
     {
         $this->validateOnly('item');
-        array_push($this->checklist, $this->item);
-        $this->item = "";
-        return back();
+
+        try {
+            array_push($this->checklist, $this->item);
+            $this->item = "";
+            return back();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     public function deleteItem($item)
     {
-        array_splice($this->checklist, $item, 1);
-        return back();
+
+        try {
+            array_splice($this->checklist, $item, 1);
+            return back();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     public function render()
     {
-
-
         return view('livewire.components.check-list');
     }
 }

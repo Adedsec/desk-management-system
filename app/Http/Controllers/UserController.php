@@ -20,12 +20,16 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
+
+    //show desk users list
     public function index()
     {
         $users = Auth::user()->activeDesk->users()->with('roles')->get();
         return view('users.list', compact('users'));
     }
 
+
+    //show user profile
     public function profile()
     {
         $user = Auth::user();
@@ -33,6 +37,7 @@ class UserController extends Controller
 
     }
 
+    //show user edit role form
     public function edit(User $user)
     {
         $permissions = Permission::all();
@@ -41,45 +46,79 @@ class UserController extends Controller
         return view('users.edit', compact('permissions', 'user', 'roles'));
     }
 
+    //update user's roles
     public function update(Request $request, User $user)
     {
-        $user->refreshPermissions($request->get('permissions'));
-        $user->refreshRoles($request->get('roles'));
-        return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد ');
-    }
+        try {
+            $user->refreshPermissions($request->get('permissions'));
+            $user->refreshRoles($request->get('roles'));
+            return back()->with('success', 'اطلاعات کاربر با موفقیت ثبت شد ');
 
-    public function acceptRequest(JoinRequest $joinRequest)
-    {
-        if (Auth::user()->id == $joinRequest->user->id) {
+        } catch (\Exception $e) {
 
-            $joinRequest->desk->users()->attach($joinRequest->user);
-            Auth::user()->active_desk_id = $joinRequest->desk->id;
-            Auth::user()->save();
-            $joinRequest->delete();
-            return redirect()->route('home')->with('success', 'با موفقیت به میزکار اضافه شدید');
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
 
-        return back()->with('error', 'مشکلی رخ داده است !');
     }
 
+    // handling user accept request
+    public function acceptRequest(JoinRequest $joinRequest)
+    {
+
+        try {
+            //check if user is valid
+            if (Auth::user()->id == $joinRequest->user->id) {
+                $joinRequest->desk->users()->attach($joinRequest->user);
+                Auth::user()->active_desk_id = $joinRequest->desk->id;
+                Auth::user()->save();
+                $joinRequest->delete();
+                return redirect()->route('home')->with('success', 'با موفقیت به میزکار اضافه شدید');
+            }
+
+            return back()->with('error', 'مشکلی رخ داده است !');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
+    }
+
+    // delete join request
     public function deleteRequest(JoinRequest $joinRequest)
     {
-        $joinRequest->delete();
-        return back()->with('success', 'عملیات با موفقیت انجام شد');
+        try {
+            $joinRequest->delete();
+            return back()->with('success', 'عملیات با موفقیت انجام شد');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
+    //show change password form
     public function changePasswordForm()
     {
         $user = Auth::user();
-
         return view('auth.passwords.change', compact('user'));
     }
 
+    // change password of user
     public function changePassword(Request $request)
     {
         $this->validateForm($request);
-        User::find(Auth::user()->id)->update(['password' => Hash::make($request->get('password'))]);
-        return redirect()->route('user.profile')->with('success', 'رمزعبور با موفقیت تغییر کرد . لطفا با رمز عبور جدید وارد شوید !');
+
+        try {
+            User::find(Auth::user()->id)->update(['password' => Hash::make($request->get('password'))]);
+            return redirect()->route('user.profile')->with('success', 'رمزعبور با موفقیت تغییر کرد . لطفا با رمز عبور جدید وارد شوید !');
+
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     private function validateForm(Request $request)

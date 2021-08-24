@@ -26,11 +26,18 @@ class EditNoteForm extends Component
     public function store()
     {
         $this->validate();
-        $this->note->title = $this->title;
-        $this->note->body = $this->body;
-        $this->note->save();
-        $this->emit('refreshNotes');
-        session()->flash('message', 'بروزرسانی انجام شد');
+
+        try {
+            $this->note->title = $this->title;
+            $this->note->body = $this->body;
+            $this->note->save();
+            $this->emit('refreshNotes');
+            session()->flash('message', 'بروزرسانی انجام شد');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     public function render()

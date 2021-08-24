@@ -41,27 +41,43 @@ class Index extends Component
     public function createTag()
     {
         $this->validate();
-        $this->desk->tags()->create([
-            'name' => $this->tag_name,
-            'type' => 'note'
-        ]);
 
-        $this->emitSelf('refreshNotes');
-        $this->emit('refreshCreateForm');
+        try {
+            $this->desk->tags()->create([
+                'name' => $this->tag_name,
+                'type' => 'note'
+            ]);
 
-        $this->tag_name = '';
+            $this->emitSelf('refreshNotes');
+            $this->emit('refreshCreateForm');
+
+            $this->tag_name = '';
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
+
     }
 
     public function filter()
     {
-        $this->notes = Auth::user()->notes()->where('desk_id', $this->desk->id)->where('title', 'like', '%' . $this->filter_text . '%');
-        if (!empty($this->filter_tags)) {
-            $this->notes = $this->notes->whereHas('tags', function ($query) {
-                $query->whereIn('tag_id', $this->filter_tags);
-            });
+
+
+        try {
+            $this->notes = Auth::user()->notes()->where('desk_id', $this->desk->id)->where('title', 'like', '%' . $this->filter_text . '%');
+            if (!empty($this->filter_tags)) {
+                $this->notes = $this->notes->whereHas('tags', function ($query) {
+                    $query->whereIn('tag_id', $this->filter_tags);
+                });
+            }
+
+            $this->notes = $this->notes->get();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
 
-        $this->notes = $this->notes->get();
     }
 
     public function render()

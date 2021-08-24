@@ -10,9 +10,16 @@ class Note extends Component
 
     public function delete()
     {
-        $this->note->delete();
-        session()->flash('success', 'یادداشت با موفقیت حذف شد');
-        $this->emit('refreshNotes');
+
+
+        try {
+            $this->note->delete();
+            session()->flash('success', 'یادداشت با موفقیت حذف شد');
+            $this->emit('refreshNotes');
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     public function render()

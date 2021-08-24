@@ -25,11 +25,18 @@ class TaskTagsMenu extends Component
     {
         $this->validate();
 
-        Auth::user()->activeDesk->tags()->create([
-            'name' => $this->name,
-            'type' => $this->type
-        ]);
-        session()->flash('success', 'برچسب با موفقیت ایجاد شد');
+
+        try {
+            Auth::user()->activeDesk->tags()->create([
+                'name' => $this->name,
+                'type' => $this->type
+            ]);
+            session()->flash('success', 'برچسب با موفقیت ایجاد شد');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function render()

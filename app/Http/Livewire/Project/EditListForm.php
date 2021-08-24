@@ -22,11 +22,18 @@ class EditListForm extends Component
 
     public function edit()
     {
-        $this->list->title = $this->title;
-        $this->list->color = $this->color;
+        try {
+            $this->list->title = $this->title;
+            $this->list->color = $this->color;
 
-        $this->list->save();
-        $this->emit('listAdded');
+            $this->list->save();
+            $this->emit('listAdded');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
+
     }
 
     public function render()

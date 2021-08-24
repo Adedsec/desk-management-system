@@ -38,8 +38,9 @@ class EditUserForm extends Component
 
     public function submit()
     {
+        $this->validate();
+
         try {
-            $this->validate();
 
             if ($this->email != $this->user->email) {
                 $this->user->email = $this->email;
@@ -58,10 +59,10 @@ class EditUserForm extends Component
             $this->user->save();
 
             return redirect()->route('user.profile')->with('success', 'اطلاعات کاربری با موفقیت بروزرسانی شد ');
-
         } catch (\Exception $exception) {
-
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
+
 
     }
 

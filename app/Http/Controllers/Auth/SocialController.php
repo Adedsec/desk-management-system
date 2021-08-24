@@ -18,10 +18,15 @@ class SocialController extends Controller
 
     public function callbackProvider($provider)
     {
-        $user = Socialite::driver($provider)->user();
 
-        Auth::login($this->findOrCreateFunction($user, $provider));
-        return redirect()->intended();
+        try {
+            $user = Socialite::driver($provider)->user();
+            Auth::login($this->findOrCreateFunction($user, $provider));
+            return redirect()->intended();
+
+        } catch (\Exception $exception) {
+            return redirect()->route('home')->with('error', 'مشکلی در ورود به سیستم رخ داده است !! ');
+        }
     }
 
     protected function findOrCreateFunction($user, $driver)

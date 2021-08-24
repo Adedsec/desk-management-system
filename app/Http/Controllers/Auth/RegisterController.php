@@ -76,7 +76,7 @@ class RegisterController extends Controller
             'phone_number' => $data['phone_number'],
             'password' => Hash::make($data['password']),
         ]);
-
+        //storing avatar to public disk
         if (array_key_exists('avatar', $data)) {
             $file = $data['avatar'];
             $name = 'user_' . $user->id . '.' . $file->extension();

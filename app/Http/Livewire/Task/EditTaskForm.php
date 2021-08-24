@@ -47,49 +47,75 @@ class EditTaskForm extends Component
     public function deleteAttachment($id)
     {
 
-        $attach = Attachment::find($id);
-        Storage::delete($attach->link);
-        $attach->delete();
+        try {
+
+            $attach = Attachment::find($id);
+            Storage::delete($attach->link);
+            $attach->delete();
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function progressUp()
     {
-        $this->task->progress >= 90
-            ? $this->task->progress = 100
-            : $this->task->progress += 10;
 
-        $this->task->save();
+        try {
+            $this->task->progress >= 90
+                ? $this->task->progress = 100
+                : $this->task->progress += 10;
+
+            $this->task->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function updateTask()
     {
 
-        $this->task->users()->sync(array_keys(array_filter($this->users)));
-        $this->task->tags()->sync(array_keys(array_filter($this->tags)));
 
-        if (!empty($this->attachment)) {
-            foreach ($this->attachment as $item) {
-                $this->task->attachments()->create([
-                    'name' => $item->getClientOriginalName(),
-                    'type' => explode('.', $item->getClientOriginalName())[1],
-                    'link' => '/storage/' . $item->store('attachments', 'public')
-                ]);
+        try {
+            $this->task->users()->sync(array_keys(array_filter($this->users)));
+            $this->task->tags()->sync(array_keys(array_filter($this->tags)));
+
+            if (!empty($this->attachment)) {
+                foreach ($this->attachment as $item) {
+                    $this->task->attachments()->create([
+                        'name' => $item->getClientOriginalName(),
+                        'type' => explode('.', $item->getClientOriginalName())[1],
+                        'link' => '/storage/' . $item->store('attachments', 'public')
+                    ]);
+                }
             }
+
+            $this->task->save();
+
+            $this->emit('updateTaskItem');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
 
-        $this->task->save();
-
-        $this->emit('updateTaskItem');
 
     }
 
     public function progressDown()
     {
-        $this->task->progress <= 10
-            ? $this->task->progress = 0
-            : $this->task->progress -= 10;
 
-        $this->task->save();
+        try {
+            $this->task->progress <= 10
+                ? $this->task->progress = 0
+                : $this->task->progress -= 10;
+
+            $this->task->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
 
 
     }

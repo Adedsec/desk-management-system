@@ -49,37 +49,52 @@ class SentPage extends Component
         $this->validate([
             'tag_name' => ['required', 'string', 'max:50']
         ]);
-        $this->desk->tags()->create([
-            'name' => $this->tag_name,
-            'type' => 'letter'
-        ]);
 
-        $this->emitSelf('refreshLetters');
-        $this->tag_name = '';
+
+        try {
+            $this->desk->tags()->create([
+                'name' => $this->tag_name,
+                'type' => 'letter'
+            ]);
+
+            $this->emitSelf('refreshLetters');
+            $this->tag_name = '';
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
 
     public function filter()
     {
-        $this->letters = Auth::user()->activeDesk->letters()->latest()
-            ->where('user_id', Auth::user()->id)
-            ->whereDoesntHave('archiveUsers', function ($q) {
-                $q->where('user_id', Auth::user()->id);
-            })
-            ->where('title', 'like', '%' . $this->filter_text . '%');
 
-        if (!empty($this->filter_tags)) {
-            $this->letters = $this->letters->whereHas('tags', function ($query) {
-                $query->whereIn('tag_id', $this->filter_tags);
-            });
+        try {
+            $this->letters = Auth::user()->activeDesk->letters()->latest()
+                ->where('user_id', Auth::user()->id)
+                ->whereDoesntHave('archiveUsers', function ($q) {
+                    $q->where('user_id', Auth::user()->id);
+                })
+                ->where('title', 'like', '%' . $this->filter_text . '%');
+
+            if (!empty($this->filter_tags)) {
+                $this->letters = $this->letters->whereHas('tags', function ($query) {
+                    $query->whereIn('tag_id', $this->filter_tags);
+                });
+            }
+            if (!is_null($this->filter_start)) {
+                $this->letters = $this->letters->where('created_at', '>=', $this->filter_start);
+            }
+            if (!is_null($this->filter_end)) {
+                $this->letters = $this->letters->where('created_at', '<=', $this->filter_end);
+            }
+            $this->letters = $this->letters->get();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
-        if (!is_null($this->filter_start)) {
-            $this->letters = $this->letters->where('created_at', '>=', $this->filter_start);
-        }
-        if (!is_null($this->filter_end)) {
-            $this->letters = $this->letters->where('created_at', '<=', $this->filter_end);
-        }
-        $this->letters = $this->letters->get();
+
         //$this->emitSelf('refreshLetters');
     }
 

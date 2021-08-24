@@ -18,7 +18,7 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, $role)
     {
         if (!$request->user() || (!$request->user()->hasRole($role)))
-            abort(404);
+            abort(403, 'شما مجوز ورود ندارید !');
         return $next($request);
     }
 }

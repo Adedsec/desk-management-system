@@ -29,7 +29,7 @@
                         <div class="d-flex mt-3 justify-content-end align-items-center">
 
                             <div class="mx-1">
-                                <button class="btn btn-outline-danger">لغو</button>
+                                <a href="{{route('home')}}" class="btn btn-outline-danger" type="button">لغو</a>
                             </div>
                             <div>
                                 <button class="btn btn-outline-dark" type="submit">ایجاد میزکار جدید</button>

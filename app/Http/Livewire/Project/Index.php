@@ -22,10 +22,16 @@ class Index extends Component
 
     public function updated($name)
     {
-        if ($name = 'filter') {
+        try {
+            if ($name = 'filter') {
 
-            $this->projects = Auth::user()->activeDesk->projects()->where('name', 'like', "%" . $this->filter . "%")->get();
+                $this->projects = Auth::user()->activeDesk->projects()->where('name', 'like', "%" . $this->filter . "%")->get();
+            }
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
+
     }
 
     public function render()

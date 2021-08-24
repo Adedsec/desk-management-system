@@ -35,25 +35,39 @@ class TaskPage extends Component
 
     public function filter()
     {
-        $this->tasks = $this->project->tasks()->orderByDesc('updated_at')->where('title', 'like', '%' . $this->filter_text . '%');
-        if ($this->filter_me) {
-            $this->tasks = $this->tasks->whereHas('users', function ($q) {
-                $q->where('user_id', Auth::user()->id);
-            });
-        }
-        if (!empty($this->filter_tags)) {
-            $this->tasks = $this->tasks->whereHas('tags', function ($query) {
-                $query->whereIn('tag_id', $this->filter_tags);
-            });
+
+        try {
+            $this->tasks = $this->project->tasks()->orderByDesc('updated_at')->where('title', 'like', '%' . $this->filter_text . '%');
+            if ($this->filter_me) {
+                $this->tasks = $this->tasks->whereHas('users', function ($q) {
+                    $q->where('user_id', Auth::user()->id);
+                });
+            }
+            if (!empty($this->filter_tags)) {
+                $this->tasks = $this->tasks->whereHas('tags', function ($query) {
+                    $query->whereIn('tag_id', $this->filter_tags);
+                });
+            }
+
+            $this->tasks = $this->tasks->get();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
 
-        $this->tasks = $this->tasks->get();
 
     }
 
     public function updateName()
     {
-        $this->project->save();
+
+        try {
+            $this->project->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function render()

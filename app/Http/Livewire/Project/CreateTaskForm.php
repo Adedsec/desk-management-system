@@ -54,41 +54,46 @@ class CreateTaskForm extends Component
 
         $this->validate();
 
-        $task = Auth::user()->tasks()->create([
-            'desk_id' => $this->project->desk->id,
-            'project_id' => $this->project->id,
-            'task_list_id' => $this->list->id ?? null,
-            'title' => $this->title,
-            'description' => $this->description,
-            'deadline' => $this->deadline,
-            'order' => is_null($this->list)
-                ? ($this->project->withoutListsTasks()->sortByDesc('order')->first()->order ?? 0) + 1
-                : ($this->list->tasks()->orderByDesc('order')->first()->order ?? 0) + 1
-        ]);
 
-        $task->users()->attach($this->users);
+        try {
+            $task = Auth::user()->tasks()->create([
+                'desk_id' => $this->project->desk->id,
+                'project_id' => $this->project->id,
+                'task_list_id' => $this->list->id ?? null,
+                'title' => $this->title,
+                'description' => $this->description,
+                'deadline' => $this->deadline,
+                'order' => is_null($this->list)
+                    ? ($this->project->withoutListsTasks()->sortByDesc('order')->first()->order ?? 0) + 1
+                    : ($this->list->tasks()->orderByDesc('order')->first()->order ?? 0) + 1
+            ]);
 
-        if (!empty($this->checklist)) {
-            $check = CheckList::arrayToChecklist($this->checklist);
+            $task->users()->attach($this->users);
 
-            $task->check_list_id = $check->id;
-        }
+            if (!empty($this->checklist)) {
+                $check = CheckList::arrayToChecklist($this->checklist);
 
-        if (!empty($this->attachment)) {
-            foreach ($this->attachment as $item) {
-                $task->attachments()->create([
-                    'name' => $item->getClientOriginalName(),
-                    'type' => explode('.', $item->getClientOriginalName())[1],
-                    'link' => '/storage/' . $item->store('attachments', 'public')
-                ]);
+                $task->check_list_id = $check->id;
             }
+
+            if (!empty($this->attachment)) {
+                foreach ($this->attachment as $item) {
+                    $task->attachments()->create([
+                        'name' => $item->getClientOriginalName(),
+                        'type' => explode('.', $item->getClientOriginalName())[1],
+                        'link' => '/storage/' . $item->store('attachments', 'public')
+                    ]);
+                }
+            }
+
+            $task->tags()->attach($this->tags);
+
+            $task->save();
+
+            return back();
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
-
-        $task->tags()->attach($this->tags);
-
-        $task->save();
-
-        return back();
 
 
     }

@@ -15,6 +15,7 @@ class CheckList extends Model
         return $this->hasMany(CheckListItem::class);
     }
 
+    //converts array to checklist
     public static function arrayToChecklist(array $array)
     {
         $checklist = CheckList::create([]);
@@ -28,6 +29,8 @@ class CheckList extends Model
         return $checklist;
     }
 
+
+    //returns last item order
     public function lastOrder()
     {
         return $this->items()->orderByDesc('order')->first()->order ?? 0;

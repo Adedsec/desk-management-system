@@ -10,7 +10,7 @@ class LetterListInput extends Component
     public $letters;
 
     protected $listeners = [
-        'refreshLetterList'
+        'refreshLetterList' => '$refresh'
     ];
 
 

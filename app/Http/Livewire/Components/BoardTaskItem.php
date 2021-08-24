@@ -17,6 +17,7 @@ class BoardTaskItem extends Component
         'updateTaskItem'
     ];
 
+    //refreshes task item
     public function updateTaskItem()
     {
         $this->task->name = $this->task->name;
@@ -31,34 +32,65 @@ class BoardTaskItem extends Component
 
     public function deleteTask()
     {
-        $this->task->delete();
-        $this->emit('taskDeleted');
+
+        try {
+            $this->task->delete();
+            $this->emit('taskDeleted');
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
+    // handling complete task
     public function updated($name, $value)
     {
-        if ($name = 'checked') {
-            $this->task->checked = $value;
-            $this->task->save();
+        try {
+            if ($name = 'checked') {
+                $this->task->checked = $value;
+                $this->task->save();
+            }
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
         }
     }
 
+
+    // handling progress up button
     public function progressUp()
     {
-        $this->task->progress >= 90
-            ? $this->task->progress = 100
-            : $this->task->progress += 10;
 
-        $this->task->save();
+        try {
+            $this->task->progress >= 90
+                ? $this->task->progress = 100
+                : $this->task->progress += 10;
+
+            $this->task->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
+
+    // handling progress down button
 
     public function progressDown()
     {
-        $this->task->progress <= 10
-            ? $this->task->progress = 0
-            : $this->task->progress -= 10;
 
-        $this->task->save();
+        try {
+            $this->task->progress <= 10
+                ? $this->task->progress = 0
+                : $this->task->progress -= 10;
+
+            $this->task->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است');
+        }
+
     }
 
     public function render()

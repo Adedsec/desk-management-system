@@ -22,39 +22,52 @@ class DeskController extends Controller
         $this->middleware('auth');
     }
 
+    // show create desk form
     public function create()
     {
         return view('desk.create');
     }
 
+
+    //create new desk
     public function store(Request $request)
     {
         $this->validateForm($request);
-        $name = $request->get('name');
-        $slug = Str::slug($name);
-        $admin = Auth::user();
-        $desk = Desk::create([
-            'name' => $name,
-            'slug' => $slug,
-            'admin_id' => $admin->id
-        ]);
 
-        $desk->users()->attach($admin);
+        try {
+            $name = $request->get('name');
+            $slug = Str::slug($name);
+            $admin = Auth::user();
+            $desk = Desk::create([
+                'name' => $name,
+                'slug' => $slug,
+                'admin_id' => $admin->id
+            ]);
+            //add admin user to users of desk
+            $desk->users()->attach($admin);
 
-        $admin->active_desk_id = $desk->id;
+            //set desk as Active desk
+            $admin->active_desk_id = $desk->id;
 
-        $admin->save();
+            $admin->save();
 
-        $admin_role = $desk->roles()->create([
-            'name' => 'admin',
-            'persian_name' => 'مدیر',
-        ]);
+            //create admin role for desk
+            $admin_role = $desk->roles()->create([
+                'name' => 'admin',
+                'persian_name' => 'مدیر',
+            ]);
+            //attach all permissions to admin role
+            $admin_role->permissions()->attach(Permission::all());
 
-        $admin_role->permissions()->attach(Permission::all());
+            //give admin role to admin of desk
+            $admin->giveRolesTo('admin');
 
-        $admin->giveRolesTo('admin');
+            return redirect('/dashboard')->with('success', 'میزکار با موفقیت ایجاد و انتخاب شد');
 
-        return redirect('/dashboard')->with('success', 'میزکار با موفقیت ایجاد و انتخاب شد');
+        } catch (\Exception $e) {
+            return back()->with('error', 'عملیات با خطا مواجه شد !');
+        }
+
 
     }
 
@@ -65,14 +78,21 @@ class DeskController extends Controller
         ]);
     }
 
+    //change active desk of user
     public function select(Desk $desk)
     {
-        $admin = Auth::user();
-        $admin->active_desk_id = $desk->id;
-        $admin->save();
-        return redirect('/dashboard')->with('success', 'میزکار شما با موفقیت تغییر کرد');
+        try {
+            $admin = Auth::user();
+            $admin->active_desk_id = $desk->id;
+            $admin->save();
+            return redirect()->route('home')->with('success', 'میزکار شما با موفقیت تغییر کرد');
+        } catch (\Exception $exception) {
+            return redirect()->route('home')->with('error', 'مشکلی در انجام عملیات رخ داده است');
+
+        }
     }
 
+    //show setting page
     public function setting()
     {
         $desk_id = Auth::user()->active_desk_id;
@@ -80,95 +100,135 @@ class DeskController extends Controller
         return view('desk.setting', compact('desk'));
     }
 
+    //change name of desk
     public function update(Request $request, Desk $desk)
     {
         $this->validateForm($request);
-        $desk->name = $request->get('name');
-        $desk->slug = Str::slug($request->get('name'));
-        $desk->save();
-        return back()->with('success', 'نام طرح با موفقیت تغییر کرد');
+        try {
+
+            $desk->name = $request->get('name');
+            $desk->slug = Str::slug($request->get('name'));
+            $desk->save();
+            return back()->with('success', 'نام طرح با موفقیت تغییر کرد');
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'عملیات با مشکل  مواجه شد !!');
+        }
     }
 
+
+    //handling invite users to desk requests
     public function SendRequest(Request $request, Desk $desk)
     {
 
         $request->validate([
             'email' => ['required', 'email', 'string']
         ]);
-        $email = $request->get('email');
 
-        if ($desk->users->contains('email', $email)) {
-            return back()->with('error', 'کاربر مورد هم اکنون عضو میز کار است');
-        }
+        try {
+            $email = $request->get('email');
+
+            //check if user exists in desk
+            if ($desk->users->contains('email', $email)) {
+                return back()->with('error', 'کاربر مورد هم اکنون عضو میز کار است');
+            }
 
 
-        if (User::all()->contains('email', $email)) {
+            //check if user exists in the web app
+            if (User::all()->contains('email', $email)) {
+                //send JoinRequest
+                $user = User::where('email', $email)->first();
 
-            //send JoinRequest
-            $user = User::where('email', $email)->first();
-            if (!(JoinRequest::all()->where('desk_id', $desk->id)->where('user_id', $user->id)->isEmpty()))
-                return back()->with('error', 'درخواست قبلا ارسال شده است');
-            JoinRequest::create([
-                'sender_id' => Auth::user()->id,
-                'desk_id' => $desk->id,
-                'user_id' => $user->id
-            ]);
-            return back()->with('success', 'درخواست برای کاربر ارسال شد');
-        } else {
-            // register user
-            $name = explode('@', $email)[0];
-            $password = mt_rand(10000000, 99999999);
+                //check if Request not sent before
+                if (!(JoinRequest::all()->where('desk_id', $desk->id)->where('user_id', $user->id)->isEmpty()))
+                    return back()->with('error', 'درخواست قبلا ارسال شده است');
 
-            $user = User::create([
-                'name' => $name,
-                'email' => $email,
-                'password' => Hash::make($password),
-                'active_desk_id' => $desk->id
-            ]);
+                //send join request to user
+                JoinRequest::create([
+                    'sender_id' => Auth::user()->id,
+                    'desk_id' => $desk->id,
+                    'user_id' => $user->id
+                ]);
+                return back()->with('success', 'درخواست برای کاربر ارسال شد');
+            } else {
+                // register user in web app
+                $name = explode('@', $email)[0];
+                $password = mt_rand(10000000, 99999999);
 
-            //send email
-            SendEmail::dispatchNow($user, new JoinRequestMail($desk, $password, Auth::user()));
-            JoinRequest::create([
-                'sender_id' => Auth::user()->id,
-                'desk_id' => $desk->id,
-                'user_id' => $user->id
-            ]);
-            return back()->with('success', 'ایمیل ثبت نام در سیستم برای کاربر ارسال شد');
+                $user = User::create([
+                    'name' => $name,
+                    'email' => $email,
+                    'password' => Hash::make($password),
+                    'active_desk_id' => $desk->id
+                ]);
 
+                //send login information email to user
+                SendEmail::dispatchNow($user, new JoinRequestMail($desk, $password, Auth::user()));
+
+                //send join request to user
+
+                JoinRequest::create([
+                    'sender_id' => Auth::user()->id,
+                    'desk_id' => $desk->id,
+                    'user_id' => $user->id
+                ]);
+                return back()->with('success', 'ایمیل ثبت نام در سیستم برای کاربر ارسال شد');
+
+            }
+        } catch (\Exception $exception) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
 
     }
 
-
+    //remove user from desk
     public function deleteUser(Desk $desk, User $user)
     {
-        $desk->users()->detach($user);
-        $user->roles()->detach($desk->roles);
-        foreach ($desk->projects as $project) {
-            foreach ($project->tasks as $task) {
-                $task->users()->detach($user);
+
+        try {
+            $desk->users()->detach($user);
+            $user->roles()->detach($desk->roles);
+            foreach ($desk->projects as $project) {
+                foreach ($project->tasks as $task) {
+                    $task->users()->detach($user);
+                }
+                $project->users()->detach($user);
             }
-            $project->users()->detach($user);
+            return back()->with('success', 'کاربر با موفقیت از میزکار حذف شد');
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
-        return back()->with('success', 'کاربر با موفقیت از میزکار حذف شد');
+
+
     }
 
+    //delete desk
     public function delete(Desk $desk)
     {
-        $desk->tasks()->delete();
-        $desk->projects()->delete();
-        foreach ($desk->projects as $project) {
-            $project->lists()->delete();
+
+        try {
+            $desk->tasks()->delete();
+            $desk->projects()->delete();
+            foreach ($desk->projects as $project) {
+                $project->lists()->delete();
+            }
+            $desk->letters()->delete();
+            $desk->notes()->delete();
+            $desk->tags()->delete();
+            $desk->delete();
+
+            $user = Auth::user();
+            $user->active_desk_id = Auth::user()->desks->sortBy('id')->first()->id ?? null;
+            $user->save();
+
+            return redirect()->route('home')->with('success', 'میزکار با موفقیت حذف شد');
+        } catch (\Exception $e) {
+
+            return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
-        $desk->letters()->delete();
-        $desk->notes()->delete();
-        $desk->tags()->delete();
-        $desk->delete();
 
-        $user = Auth::user();
-        $user->active_desk_id = Auth::user()->desks->sortBy('id')->first()->id ?? null;
-        $user->save();
 
-        return redirect()->route('home')->with('success', 'میزکار با موفقیت حذف شد');
     }
 }

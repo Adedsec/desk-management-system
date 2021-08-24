@@ -32,19 +32,33 @@ class TaskItem extends Component
 
     public function updated($name, $value)
     {
-        if ($name == 'checked') {
-            $this->task->checked = $value;
-            $this->task->save();
+
+        try {
+            if ($name == 'checked') {
+                $this->task->checked = $value;
+                $this->task->save();
+            }
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
+
     }
 
     public function progressUp()
     {
-        $this->task->progress >= 90
-            ? $this->task->progress = 100
-            : $this->task->progress += 10;
 
-        $this->task->save();
+        try {
+            $this->task->progress >= 90
+                ? $this->task->progress = 100
+                : $this->task->progress += 10;
+
+            $this->task->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function updateTask()
@@ -56,11 +70,19 @@ class TaskItem extends Component
 
     public function progressDown()
     {
-        $this->task->progress <= 10
-            ? $this->task->progress = 0
-            : $this->task->progress -= 10;
 
-        $this->task->save();
+
+        try {
+            $this->task->progress <= 10
+                ? $this->task->progress = 0
+                : $this->task->progress -= 10;
+
+            $this->task->save();
+
+        } catch (\Exception $exception) {
+            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+        }
+
     }
 
     public function render()
