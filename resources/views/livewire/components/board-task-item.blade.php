@@ -13,8 +13,10 @@
 
                     </div>
                     <div>
-                        <a class="text-danger" href="#deleteModal{{$task->id}}" data-bs-toggle="modal"><i
-                                class="bi bi-x-lg"></i></a>
+                        @can('manage_task')
+                            <a class="text-danger" href="#deleteModal{{$task->id}}" data-bs-toggle="modal"><i
+                                    class="bi bi-x-lg"></i></a>
+                        @endcan
                     </div>
                 </div>
 

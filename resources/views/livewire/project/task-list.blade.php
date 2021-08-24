@@ -16,47 +16,51 @@
 
             {{--            list settings--}}
             @if (!is_null($list))
-                <div class="dropdown">
+                @can('manage_lists')
+                    <div class="dropdown">
 
-                    <button type="button" class="btn bg-transparent  text-light m-0 p-0"
-                            id="listDropdownButton{{is_null($list) ? 0 :$list->id}}"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        <i class="bi  mx-2 pt-2 bi-three-dots"
-                           style="font-size: 20px"></i>
-                    </button>
+                        <button type="button" class="btn bg-transparent  text-light m-0 p-0"
+                                id="listDropdownButton{{is_null($list) ? 0 :$list->id}}"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                            <i class="bi  mx-2 pt-2 bi-three-dots"
+                               style="font-size: 20px"></i>
+                        </button>
 
-                    <ul class="dropdown-menu text-right"
-                        aria-labelledby="#listDropdownButton{{is_null($list) ? 0 :$list->id}}"
-                        id="listDropdown">
-                        <li>
-                            <button class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#editListModal{{is_null($list) ? 0 :$list->id}}">
-                                ویرایش
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item text-danger" data-bs-toggle="modal"
-                                    data-bs-target="#deleteListModal{{$list->id}}">
-                                حذف
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+                        <ul class="dropdown-menu text-right"
+                            aria-labelledby="#listDropdownButton{{is_null($list) ? 0 :$list->id}}"
+                            id="listDropdown">
+                            <li>
+                                <button class="dropdown-item" data-bs-toggle="modal"
+                                        data-bs-target="#editListModal{{is_null($list) ? 0 :$list->id}}">
+                                    ویرایش
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item text-danger" data-bs-toggle="modal"
+                                        data-bs-target="#deleteListModal{{$list->id}}">
+                                    حذف
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                @endcan
             @endif
 
         </div>
 
-        <a href="#" type="button" data-bs-target="#createTaskModal{{is_null($list) ? 0 :$list->id}}"
-           data-bs-toggle="modal"
-           class="text-decoration-none">
-            <div class="rounded-2  mb-1 d-flex justify-content-center align-items-center"
-                 style="height: 28px; background-color: #d0cfcf">
-                <div class="m-3">
-                    <div class="text-secondary">ایجاد وظیفه جدید</div>
+        @can('manage_task')
+            <a href="#" type="button" data-bs-target="#createTaskModal{{is_null($list) ? 0 :$list->id}}"
+               data-bs-toggle="modal"
+               class="text-decoration-none">
+                <div class="rounded-2  mb-1 d-flex justify-content-center align-items-center"
+                     style="height: 28px; background-color: #d0cfcf">
+                    <div class="m-3">
+                        <div class="text-secondary">ایجاد وظیفه جدید</div>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        @endcan
 
         <div class="h-100" wire:sortable-group.item-group="{{ $list->id ?? 0 }}">
             @if (is_null($list))

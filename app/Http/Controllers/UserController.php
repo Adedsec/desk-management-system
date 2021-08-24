@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = Auth::user()->activeDesk->users()->with('roles')->get();
         return view('users.list', compact('users'));
     }
 
@@ -36,7 +36,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $permissions = Permission::all();
-        $roles = Role::all();
+        $roles = Auth::user()->activeDesk->roles;
         $user->load('roles', 'permissions');
         return view('users.edit', compact('permissions', 'user', 'roles'));
     }

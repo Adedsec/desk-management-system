@@ -6,8 +6,11 @@
                     <h5 class="card-title">
                         پروژه:
                         {{$project->name}}
-                        <a href="#editNameModal" data-bs-toggle="modal"><span class="text-primary"><i
-                                    class="bi bi-pencil"></i></span></a>
+                        @can('manage_project')
+
+                            <a href="#editNameModal" data-bs-toggle="modal"><span class="text-primary"><i
+                                        class="bi bi-pencil"></i></span></a>
+                        @endcan
                     </h5>
 
                     @role('admin')
@@ -83,9 +86,11 @@
                     @endforeach
                 </div>
                 <div class="d-flex justify-content-center align-items-center">
-                    <button data-bs-target="#addUserModal" data-bs-toggle="modal" class="btn btn-outline-success">
-                        تغییر اعضا
-                    </button>
+                    @can('manage_project')
+                        <button data-bs-target="#addUserModal" data-bs-toggle="modal" class="btn btn-outline-success">
+                            تغییر اعضا
+                        </button>
+                    @endcan
                 </div>
             </div>
 
@@ -94,10 +99,13 @@
     <div class="col-md-9">
         <div class="d-flex justify-content-start align-items-start">
 
-            <button class="btn btn-outline-dark mx-3" data-bs-target="#createTaskModal" data-bs-toggle="modal">
-                <i class="bi bi-plus-lg"></i>
-                ایجاد وظیفه
-            </button>
+            @can('manage_task')
+
+                <button class="btn btn-outline-dark mx-3" data-bs-target="#createTaskModal" data-bs-toggle="modal">
+                    <i class="bi bi-plus-lg"></i>
+                    ایجاد وظیفه
+                </button>
+            @endcan
 
             <button class="btn btn-outline-primary" data-bs-target="#filterCollapse" data-bs-toggle="collapse">فیلتر
             </button>
@@ -163,58 +171,59 @@
             </div>
         </div>
     </div>
+    @can('manage_project')
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">تغییر اعضای پروژه</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{route('project.edit.user',$project->id)}}" method="post">
+                            @csrf
+                            @foreach($users as $user)
+                                <label for="">
+                                    <input type="checkbox" name="users[]"
+                                           {{$project->users->contains($user) ? 'checked':''}} value="{{$user->id}}"
+                                           class="form-check-input form-check-inline">
+                                    {{$user->name}}
+                                </label>
+                            @endforeach
+                            <div class="d-flex m-2">
 
-    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">تغییر اعضای پروژه</h5>
-                </div>
-                <div class="modal-body">
-                    <form action="{{route('project.edit.user',$project->id)}}" method="post">
-                        @csrf
-                        @foreach($users as $user)
-                            <label for="">
-                                <input type="checkbox" name="users[]"
-                                       {{$project->users->contains($user) ? 'checked':''}} value="{{$user->id}}"
-                                       class="form-check-input form-check-inline">
-                                {{$user->name}}
-                            </label>
-                        @endforeach
-                        <div class="d-flex m-2">
-
-                            <button class="btn btn-outline-dark" type="submit">
-                                ذخیره
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="editNameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">تغییر نام پروژه</h5>
-                </div>
-                <div class="modal-body">
-                    <form action="" wire:submit.prevent="updateName">
-                        <input type="text" class="form-control form-control-sm" wire:model.defer="project.name"
-                               placeholder="نام پروژه"
-                               value="{{$project->name}}">
-                        <div class="d-flex m-2">
-
-                            <button class="btn btn-outline-dark" data-bs-dismiss="modal" type="submit">
-                                ذخیره
-                            </button>
-                        </div>
-                    </form>
+                                <button class="btn btn-outline-dark" type="submit">
+                                    ذخیره
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="modal fade" id="editNameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">تغییر نام پروژه</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" wire:submit.prevent="updateName">
+                            <input type="text" class="form-control form-control-sm" wire:model.defer="project.name"
+                                   placeholder="نام پروژه"
+                                   value="{{$project->name}}">
+                            <div class="d-flex m-2">
+
+                                <button class="btn btn-outline-dark" data-bs-dismiss="modal" type="submit">
+                                    ذخیره
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endcan
 </div>
 
 

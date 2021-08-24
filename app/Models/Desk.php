@@ -54,7 +54,7 @@ class Desk extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_user', 'desk_id', 'role_id');
+        return $this->hasMany(Role::class);
     }
 
     public function permissions()
@@ -72,6 +72,18 @@ class Desk extends Model
     public function delayTasksCount()
     {
         return $this->tasks()->where('deadline', '<', Carbon::now())->count();
+    }
+
+    public function projectsCount(User $user)
+    {
+        return $this->projects()->whereHas('users', function ($q) use ($user) {
+            $q->where('id', $user->id);
+        })->count();
+    }
+
+    public function hasUsers()
+    {
+        return $this->users->where('id', '!=', $this->admin_id)->count() == 0 ? false : true;
     }
 
 

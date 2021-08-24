@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::all();
+        $roles = Auth::user()->activeDesk->roles;
         return view('roles.list', compact('roles'));
     }
 
@@ -19,7 +20,7 @@ class RoleController extends Controller
 
         $this->validateForm($request);
 
-        Role::create($request->only(['name', 'persian_name']));
+        Auth::user()->activeDesk->roles()->create($request->only(['name', 'persian_name']));
         return back()->with('success', 'نقش جدید باموفقیت ایجاد شد');
 
     }
@@ -45,6 +46,13 @@ class RoleController extends Controller
         $this->validateForm($request);
         $role->update($request->only(['name', 'persian_name']));
         $role->refreshPermissions($request->only('permissions'));
-        return back()->with('success')->with('عملیات با موفقیت انجام شد ');
+        return back()->with('success', 'عملیات با موفقیت انجام شد ');
+    }
+
+    public function delete(Role $role)
+    {
+        $role->delete();
+
+        return back()->with('success', 'نقش موردنظر حذف شد');
     }
 }

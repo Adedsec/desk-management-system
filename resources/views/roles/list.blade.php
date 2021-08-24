@@ -48,7 +48,16 @@
                     <tr>
                         <td> {{$role->name}} </td>
                         <td> {{$role->persian_name}} </td>
-                        <td><a href="{{route('roles.edit',$role->id)}}"> تغییر </a></td>
+                        <td>
+                            <a class="btn btn-outline-success {{$role->name =='admin' ? 'disabled' : ''}}" type="button"
+                               {{$role->name =='admin' ? 'disabled' : ''}} href="{{route('roles.edit',$role->id)}}">
+                                تغییر </a>
+
+                            <a class="btn btn-outline-danger {{$role->name =='admin' ? 'disabled' : ''}}" type="button"
+                               {{$role->name =='admin' ? 'disabled' : ''}} href="{{route('roles.delete',$role->id)}}">
+                                حذف </a>
+
+                        </td>
                     </tr>
                 @empty
                     <p>

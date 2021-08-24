@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\InvalidStateException;
 
 class SocialController extends Controller
 {
@@ -18,6 +19,7 @@ class SocialController extends Controller
     public function callbackProvider($provider)
     {
         $user = Socialite::driver($provider)->user();
+
         Auth::login($this->findOrCreateFunction($user, $provider));
         return redirect()->intended();
     }

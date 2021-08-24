@@ -32,8 +32,8 @@
                 <div class="form-group">
                     @forelse ($permissions as $permission)
                         <div class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" name='permissions[]'
-                                   {{$role->permissions->contains($permission) ? 'checked' : ''}} value="{{$permission->name}}"
+                            <input type="checkbox" name='permissions[]' {{$role->name =='admin' ? 'disabled' : '' }}
+                            {{$role->permissions->contains($permission) ? 'checked' : ''}} value="{{$permission->name}}"
                                    class=" form-check-input"
                                    id="{{'permission' . $permission->id}}">
                             <label class="custom-control-label"
@@ -41,7 +41,7 @@
                         </div>
                     @empty
                         <p>
-                            @lang('users.there are not any role')
+                            مجوزی وجود ندارد
                         </p>
                     @endforelse
                 </div>

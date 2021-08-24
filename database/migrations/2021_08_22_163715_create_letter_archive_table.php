@@ -17,6 +17,18 @@ class CreateLetterArchiveTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('letter_id');
 
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('letter_id')
+                ->references('id')
+                ->on('letters')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
 
             $table->primary(['user_id', 'letter_id']);
         });
@@ -30,7 +42,7 @@ class CreateLetterArchiveTable extends Migration
     public function down()
     {
         Schema::table('letter_archive', function (Blueprint $table) {
-            //
+
         });
     }
 }

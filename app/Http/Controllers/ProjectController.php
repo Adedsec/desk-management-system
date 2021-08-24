@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -24,8 +25,13 @@ class ProjectController extends Controller
 
     public function create()
     {
-        $activeDesk = Auth::user()->activeDesk;
-        return view('project.create', compact('activeDesk'));
+        if (Gate::allows('manage_project')) {
+            $activeDesk = Auth::user()->activeDesk;
+            return view('project.create', compact('activeDesk'));
+
+        } else {
+            return abort(403);
+        }
     }
 
 

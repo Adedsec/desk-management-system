@@ -5,7 +5,9 @@ namespace App\Services\Permission\Traits;
 
 
 use App\Models\Permission;
+use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 trait HasPermissions
 {
@@ -18,7 +20,8 @@ trait HasPermissions
     {
         $permissions = $this->getAllPermissions($permissions);
         if ($permissions->isEmpty()) return $this;
-        $permissions = $this->generateRolesArray($permissions);
+        //if ($this instanceof User)
+        //$permissions = $this->generatePermissionsArray($permissions);
         $this->permissions()->syncWithoutDetaching($permissions);
         return $this;
     }
@@ -26,7 +29,8 @@ trait HasPermissions
     public function withdrawPermissions(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
-        $permissions = $this->generateRolesArray($permissions);
+        //if ($this instanceof User)
+        //$permissions = $this->generatePermissionsArray($permissions);
         $this->permissions()->detach($permissions);
         return $this;
     }
@@ -34,7 +38,8 @@ trait HasPermissions
     public function refreshPermissions(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
-        $permissions = $this->generateRolesArray($permissions);
+        //if ($this instanceof User)
+        //$permissions = $this->generatePermissionsArray($permissions);
         $this->permissions()->sync($permissions);
         return $this;
 
@@ -42,20 +47,21 @@ trait HasPermissions
 
     public function hasPermission(Permission $permission)
     {
-        return $this->hasPermissionsThroughRole($permission) || ($this->permissions->contains($permission) &&
-                $this->permissions()->withPivot('desk_id')->where('name', $permission->name)->first()->pivot->desk_id == $this->activeDesk->id
+        return $this->hasPermissionsThroughRole($permission) || ($this->permissions->contains($permission)
+                //&&
+                //$this->permissions()->withPivot('desk_id')->where('name', $permission->name)->first()->pivot->desk_id == $this->activeDesk->id
             );
     }
 
     protected function hasPermissionsThroughRole(Permission $permission)
     {
-        foreach ($permission->roles() as $role) {
-            if ($this->roles->contains($role)
-                &&
-                $this->roles()->withPivot('desk_id')->where('name', $role->name)->first()->pivot->desk_id == $this->activeDesk->id)
+        //dd($permission->roles);
+        foreach ($permission->roles as $role) {
+            if ($this->roles->contains($role))
+                //&&
+                //$this->roles()->withPivot('desk_id')->where('name', $role->name)->first()->pivot->desk_id == Auth::user()->activeDesk->id)
                 return true;
         }
-
         return false;
     }
 
@@ -67,9 +73,11 @@ trait HasPermissions
 
     protected function generatePermissionsArray($permissions)
     {
+
         $result = [];
         $desk = $this->activeDesk;
         foreach ($permissions as $permission) {
+
             $result[$permission->id] = ['desk_id' => $desk->id];
         }
         return $result;

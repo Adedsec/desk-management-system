@@ -34,7 +34,7 @@
                                                     پروژه های فعال
                                                 </p>
                                                 <p class="card-text">
-                                                    {{\Illuminate\Support\Facades\Auth::user()->activeDesk->projects()->count()}}
+                                                    {{\Illuminate\Support\Facades\Auth::user()->activeDesk->projectsCount(\Illuminate\Support\Facades\Auth::user())}}
                                                 </p>
                                             </div>
                                         </a>

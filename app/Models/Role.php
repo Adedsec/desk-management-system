@@ -18,6 +18,11 @@ class Role extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function desk()
+    {
+        return $this->belongsTo(Desk::class);
+    }
+
     public function desks()
     {
         return $this->belongsToMany(Desk::class, 'role_user', 'role_id', 'desk_id');

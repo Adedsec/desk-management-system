@@ -63,6 +63,7 @@ Route::group(['prefix' => 'setting', 'middleware' => 'role:admin'], function () 
     Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
     Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
     Route::post('/roles/{role}/edit', [RoleController::class, 'update'])->name('roles.update');
+    Route::get('/roles/{role}/delete', [RoleController::class, 'delete'])->name('roles.delete');
     //End Of Role And Permission
 
 
@@ -81,6 +82,8 @@ Route::post('desks/select/{desk}', [DeskController::class, 'update'])->name('des
 Route::post('desks/send-request/{desk}', [DeskController::class, 'SendRequest'])->name('desks.Send.request');
 Route::get('desks/acceptRequest/{joinRequest}', [UserController::class, 'acceptRequest'])->name('desks.acceptRequest');
 Route::get('desks/deleteRequest/{joinRequest}', [UserController::class, 'deleteRequest'])->name('desks.deleteRequest');
+Route::get('desk/{desk}/user/{user}/delete', [DeskController::class, 'deleteUser'])->name('desk.user.delete');
+Route::get('desks/{desk}/delete', [DeskController::class, 'delete'])->name('desks.delete');
 
 //Project Routes
 

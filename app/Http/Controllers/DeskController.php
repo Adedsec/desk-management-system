@@ -6,6 +6,8 @@ use App\Jobs\SendEmail;
 use App\Mail\JoinRequestMail;
 use App\Models\Desk;
 use App\Models\JoinRequest;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +44,15 @@ class DeskController extends Controller
         $admin->active_desk_id = $desk->id;
 
         $admin->save();
+
+        $admin_role = $desk->roles()->create([
+            'name' => 'admin',
+            'persian_name' => 'مدیر',
+        ]);
+
+        $admin_role->permissions()->attach(Permission::all());
+
+        $admin->giveRolesTo('admin');
 
         return redirect('/dashboard')->with('success', 'میزکار با موفقیت ایجاد و انتخاب شد');
 
@@ -126,5 +137,38 @@ class DeskController extends Controller
 
         }
 
+    }
+
+
+    public function deleteUser(Desk $desk, User $user)
+    {
+        $desk->users()->detach($user);
+        $user->roles()->detach($desk->roles);
+        foreach ($desk->projects as $project) {
+            foreach ($project->tasks as $task) {
+                $task->users()->detach($user);
+            }
+            $project->users()->detach($user);
+        }
+        return back()->with('success', 'کاربر با موفقیت از میزکار حذف شد');
+    }
+
+    public function delete(Desk $desk)
+    {
+        $desk->tasks()->delete();
+        $desk->projects()->delete();
+        foreach ($desk->projects as $project) {
+            $project->lists()->delete();
+        }
+        $desk->letters()->delete();
+        $desk->notes()->delete();
+        $desk->tags()->delete();
+        $desk->delete();
+
+        $user = Auth::user();
+        $user->active_desk_id = Auth::user()->desks->sortBy('id')->first()->id ?? null;
+        $user->save();
+
+        return redirect()->route('home')->with('success', 'میزکار با موفقیت حذف شد');
     }
 }

@@ -20,11 +20,26 @@
                         <td> {{$user->name}} </td>
                         <td> {{$user->email}} </td>
                         <td>
-                            @foreach ($user->roles as $role)
+                            @foreach ($user->roles()->where('desk_id',\Illuminate\Support\Facades\Auth::user()->activeDesk->id)->get() as $role)
                                 <span class="badge bg-info"> {{$role->persian_name}} </span>
 
                         @endforeach
-                        <td><a href="{{route('users.edit',[$user->id])}}"> تغییر </a></td>
+                        <td>
+                            <a class="btn btn-outline-success "
+                               href="{{route('users.edit',[$user->id])}}">
+                                تغییر
+                            </a>
+
+                            @if ($user->id != \Illuminate\Support\Facades\Auth::user()->activeDesk->admin_id)
+
+                                <a class="btn btn-outline-danger "
+                                   href="{{route('desk.user.delete',[\Illuminate\Support\Facades\Auth::user()->activeDesk->id,$user->id])}}">
+                                    حذف
+                                </a>
+
+                            @endif
+
+                        </td>
                     </tr>
                 @empty
                     <p>

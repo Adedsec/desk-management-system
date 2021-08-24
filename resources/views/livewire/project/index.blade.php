@@ -12,8 +12,11 @@
     <div class="mt-4">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex justify-content-start align-items-baseline">
-                <h2>پروژه ها</h2> <a href="{{route('projects.create')}}" class="btn btn-primary text-light mx-4">افزودن
-                    پروژه جدید</a>
+                <h2>پروژه ها</h2>
+                @can('manage_project')
+                    <a href="{{route('projects.create')}}" class="btn btn-primary text-light mx-4">افزودن
+                        پروژه جدید</a>
+                @endcan
             </div>
             <div class="w-25">
                 <input class="form-control" placeholder="فیلتر پروژه ها ..." name="filter" wire:model="filter"
@@ -77,18 +80,19 @@
                     </a>
                 </div>
             @endforeach
-
-            <div class="col-md-2 p-2">
-                <a class="text-decoration-none text-dark" href="{{route('projects.create')}}">
-                    <div class="card  h-100 shadow-sm " style="border-style: dashed">
-                        <div
-                            class="card-body h-100 rounded-3 d-flex flex-column justify-content-center align-items-center">
-                            <i class="bi bi-plus-circle-fill" style="font-size: 40px"></i>
-                            ساخت پروژه جدید
+            @can('manage_project')
+                <div class="col-md-2 p-2">
+                    <a class="text-decoration-none text-dark" href="{{route('projects.create')}}">
+                        <div class="card  h-100 shadow-sm " style="border-style: dashed">
+                            <div
+                                class="card-body h-100 rounded-3 d-flex flex-column justify-content-center align-items-center">
+                                <i class="bi bi-plus-circle-fill" style="font-size: 40px"></i>
+                                ساخت پروژه جدید
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            @endcan
         </div>
     </div>
 @endif

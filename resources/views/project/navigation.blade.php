@@ -8,6 +8,8 @@
            href="{{route('project.board',$project->id)}}">بورد پروژه</a>
     </li>
 
-    <livewire:components.task-tags-menu/>
+    @can('manage_tags')
+        <livewire:components.task-tags-menu/>
+    @endcan
 
 </ul>

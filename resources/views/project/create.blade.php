@@ -50,7 +50,7 @@
 
                                 @foreach($activeDesk->users as $user)
 
-                                    @if ($user->id != $activeDesk->admin->id)
+                                    @if ($user->id != \Illuminate\Support\Facades\Auth::user()->id)
                                         <label class="list-group-item">
                                             <input class="form-check-input me-1" name="users[]" type="checkbox"
                                                    value="{{$user->id}}">

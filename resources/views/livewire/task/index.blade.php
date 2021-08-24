@@ -13,15 +13,20 @@
 
         <div class="d-flex justify-content-start align-items-start">
             @if (empty(\Illuminate\Support\Facades\Auth::user()->desk->projects))
-                <a href="{{route('projects.create')}}" class="btn btn-outline-danger mx-3">
-                    <i class="bi bi-plus-lg"></i>
-                    ساخت پروژه
-                </a>
+
+                @can('manage_project')
+                    <a href="{{route('projects.create')}}" class="btn btn-outline-danger mx-3">
+                        <i class="bi bi-plus-lg"></i>
+                        ساخت پروژه
+                    </a>
+                @endcan
             @else
-                <button class="btn btn-outline-dark mx-3" data-bs-target="#createTaskModal" data-bs-toggle="modal">
-                    <i class="bi bi-plus-lg"></i>
-                    ایجاد وظیفه
-                </button>
+                @can('manage_tasks')
+                    <button class="btn btn-outline-dark mx-3" data-bs-target="#createTaskModal" data-bs-toggle="modal">
+                        <i class="bi bi-plus-lg"></i>
+                        ایجاد وظیفه
+                    </button>
+                @endcan
             @endif
             <button class="btn btn-outline-primary" data-bs-target="#filterCollapse" data-bs-toggle="collapse">
                 فیلتر

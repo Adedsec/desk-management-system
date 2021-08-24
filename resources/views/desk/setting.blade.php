@@ -42,7 +42,13 @@
                             در صورتیکه می‌خواهید میزِکار خود را حذف کنید، ابتدا تمامی اعضاء را حذف کرده سپس دکمه زیر را
                             انتخاب کنید: </p>
                         <div class="d-flex mt-4 align-items-center justify-content-end">
-                            <a href="#" class="btn btn-outline-danger ">حذف میزکار</a>
+
+                            @if ($desk->hasUsers())
+                                <a href="#" class="btn btn-outline-danger disabled">حذف میزکار</a>
+                            @else
+                                <a href="#deleteDeskModal" data-bs-toggle="modal" class="btn btn-outline-danger ">حذف
+                                    میزکار</a>
+                            @endif
 
                         </div>
                     </div>
@@ -114,6 +120,23 @@
                     </div>
                     <hr>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteDeskModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    آیا از حذف میزکار
+                    {{$desk->name}}
+                    اطمینان دارید ؟!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">لغو</button>
+                    <a href="{{route('desks.delete',$desk->id)}}" type="button"
+                       class="btn btn-danger text-light">بله</a>
                 </div>
             </div>
         </div>
