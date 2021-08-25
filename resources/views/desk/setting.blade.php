@@ -41,6 +41,10 @@
                         <p class="card-text">
                             در صورتیکه می‌خواهید میزِکار خود را حذف کنید، ابتدا تمامی اعضاء را حذف کرده سپس دکمه زیر را
                             انتخاب کنید: </p>
+
+                        <p class="small text-danger">
+                            با حذف میزکار تمامی پروژه ها ، وظایف ، نامه ها و یادداشت های میزکار برای همیشه حذف میشوند !!
+                        </p>
                         <div class="d-flex mt-4 align-items-center justify-content-end">
 
                             @if ($desk->hasUsers())

@@ -44,7 +44,7 @@ class CreateTaskForm extends Component
         $this->desk = Auth::user()->activeDesk;
         $this->project = $this->desk->projects()->whereHas('users', function ($q) {
             $q->where('user_id', Auth::user()->id);
-        })->first();
+        })->first()->id;
     }
 
     public function checklist($value)
@@ -64,8 +64,6 @@ class CreateTaskForm extends Component
         $this->validate();
 
         try {
-
-            dd($this->project);
 
             $this->project = Project::find($this->project);
 

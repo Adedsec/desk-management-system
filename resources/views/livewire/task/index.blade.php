@@ -12,7 +12,7 @@
     <div class=" mt-4 vh-84">
 
         <div class="d-flex justify-content-start align-items-start">
-            @if (empty(\Illuminate\Support\Facades\Auth::user()->desk->projects))
+            @if (\Illuminate\Support\Facades\Auth::user()->desk->projects->isEmpty())
 
                 @can('manage_project')
                     <a href="{{route('projects.create')}}" class="btn btn-outline-danger mx-3">
