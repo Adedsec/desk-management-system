@@ -60,7 +60,7 @@ class EditUserForm extends Component
 
             return redirect()->route('user.profile')->with('success', 'اطلاعات کاربری با موفقیت بروزرسانی شد ');
         } catch (\Exception $exception) {
-            session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
+            //session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');
         }
 
 

@@ -108,9 +108,10 @@
                                 </button>
                             </div>
                             <div class="mx-1">
-                                <button type="submit" class="btn text-light btn-danger">
+                                <a type="button" href="{{route('auth.login.provider.redirect','google')}}"
+                                   class="btn text-light btn-danger">
                                     ورود با گوگل
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </form>
