@@ -17,7 +17,7 @@
 
             <div class="col-md-9">
                 <div class="d-flex flex-column">
-                    <div class="card">
+                    <div class="card bg-transparent">
                         <div class="card-body">
                             <h4 class="card-title m-3">
                                 میزکار (({{\Illuminate\Support\Facades\Auth::user()->activeDesk->name}} ))
@@ -96,7 +96,7 @@
         @endif
 
         <div class="col-md-3">
-            <div class="card">
+            <div class="card bg-transparent">
                 <div class="card-body">
 
                     <div class="d-flex flex-column justify-content-start align-items-center">

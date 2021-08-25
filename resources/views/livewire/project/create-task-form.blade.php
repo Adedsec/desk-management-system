@@ -62,7 +62,6 @@
         <div class="form-group text-right mt-2">
             <label class="text-right" style="left: auto" for="deadline">مهلت انجام : </label>
             <input type="datetime-local" wire:model.defer="deadline" class="form-control">
-
         </div>
     </div>
 
@@ -126,5 +125,22 @@
         </button>
     </div>
 
+
+    {{--    <script type="text/javascript">--}}
+    {{--        $(document).ready(function () {--}}
+    {{--            $(".persian-date").pDatepicker(--}}
+    {{--                {--}}
+    {{--                    timePicker: {enabled: true},--}}
+    {{--                    format: 'H:m YYYY/M/D',--}}
+    {{--                    calendar: {--}}
+    {{--                        persian: {--}}
+    {{--                            locale: 'en'--}}
+    {{--                        }--}}
+    {{--                    }--}}
+
+    {{--                }--}}
+    {{--            );--}}
+    {{--        });--}}
+    {{--    </script>--}}
 
 </form>

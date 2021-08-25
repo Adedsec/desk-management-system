@@ -32,7 +32,10 @@
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <livewire:styles/>
 </head>
-<body>
+<body class=" min-vh-100" style="background-color: #85FFBD;
+background-image: linear-gradient(45deg, #85FFBD 0%, #FFFB7D 100%);
+
+">
 <div id="app">
     @include('layouts.navigation')
 

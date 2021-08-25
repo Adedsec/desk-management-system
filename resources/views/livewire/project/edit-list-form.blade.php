@@ -7,37 +7,6 @@
         @error('title')
         <li class="small text-danger">{{$message}}</li>
         @enderror
-        <div class="form-group mt-4">
-
-            <div class="text-dark mb-3">
-                رنگ :
-            </div>
-
-            <input type="radio" value="white" wire:model="color"
-                   {{$list->color == 'white' ? 'checked':''}} class="btn-check" name="color" id="white"
-                   autocomplete="off">
-            <label class="btn btn-outline-primary mx-1 border-3 color-label rounded-circle"
-                   for="white"></label>
-
-            <input type="radio" value="green" {{$list->color == 'green' ? 'checked':''}} wire:model="color"
-                   class="btn-check" name="color" id="green"
-                   autocomplete="off">
-            <label class="btn btn-outline-success mx-1 border-3 color-label rounded-circle"
-                   for="green"></label>
-
-            <input type="radio" value="red" {{$list->color == 'blue' ? 'checked':''}} wire:model="color"
-                   class="btn-check" name="color" id="red"
-                   autocomplete="off">
-            <label class="btn btn-outline-danger mx-1 border-3 color-label rounded-circle"
-                   for="red"></label>
-
-            <input type="radio" value="yellow" wire:model="color" class="btn-check" name="color" id="yellow"
-                   autocomplete="off">
-            <label class="btn btn-outline-warning mx-1 border-3 color-label rounded-circle"
-                   for="yellow"></label>
-
-
-        </div>
     </div>
 
     <div class="d-flex justify-content-end align-items-center">

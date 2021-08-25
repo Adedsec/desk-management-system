@@ -76,6 +76,15 @@
         </div>
         <div class="row mt-5">
             <ul class="d-flex flex-column justify-content-start align-items-center mb-5 w-100 px-5 list-group">
+                @if($letters->isEmpty())
+                    <div class="card bg-transparent border-danger">
+                        <div class="card-body">
+                            <p class="card-title">
+                                نامه ای یافت نشد !
+                            </p>
+                        </div>
+                    </div>
+                @endif
                 @foreach($letters as $letter)
                     <livewire:components.letter-item :letter="$letter" :key="$letter->id"/>
                 @endforeach

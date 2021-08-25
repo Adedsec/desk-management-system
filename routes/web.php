@@ -87,7 +87,7 @@ Route::get('desks/{desk}/delete', [DeskController::class, 'delete'])->name('desk
 
 //Project Routes
 
-Route::get('/projects', \App\Http\Livewire\Project\Index::class)->name('projects.index');
+Route::get('/projects', \App\Http\Livewire\Project\Index::class)->middleware('auth')->name('projects.index');
 Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
 Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
 Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');

@@ -14,8 +14,9 @@
 
         <div class="row mt-3">
             <div class="d-flex w-100 justify-content-start align-items-start">
-                <button class="btn btn-dark mx-1" data-bs-target="#filterCollapse" data-bs-toggle="collapse"><i
-                        class="bi bi-plus-lg"></i> فیلتر نامه ها
+                <button class="btn btn-dark mx-1" data-bs-target="#filterCollapse" data-bs-toggle="collapse">
+                    <i class="bi bi-funnel"></i>
+                    فیلتر نامه ها
                 </button>
 
                 <div class="flex-grow-1 mx-2 collapse" id="filterCollapse">
@@ -76,6 +77,15 @@
         </div>
         <div class="row mt-5">
             <ul class="d-flex flex-column justify-content-start align-items-center mb-5 w-100 px-5 list-group">
+                @if($letters->isEmpty())
+                    <div class="card bg-transparent border-danger">
+                        <div class="card-body">
+                            <p class="card-title">
+                                نامه ای یافت نشد !
+                            </p>
+                        </div>
+                    </div>
+                @endif
                 @foreach($letters as $letter)
                     <livewire:components.letter-item :letter="$letter" :key="$letter->id"/>
                 @endforeach

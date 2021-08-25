@@ -4,7 +4,10 @@
         <button class="btn btn-outline-dark" data-bs-target="#tagModal" data-bs-toggle="modal"><i
                 class="bi bi-plus-lg"></i> افزودن برجسب
         </button>
-        <button class="btn btn-outline-success mx-2" data-bs-target="#filterCollapse" data-bs-toggle="collapse">فیلتر
+        <button class="btn btn-outline-success mx-2" data-bs-target="#filterCollapse" data-bs-toggle="collapse">
+            <i class="bi bi-funnel"></i>
+            فیلتر
+
         </button>
 
         <div class=" w-50 card collapse" id="filterCollapse">

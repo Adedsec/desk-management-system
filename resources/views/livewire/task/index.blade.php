@@ -29,6 +29,7 @@
                 @endcan
             @endif
             <button class="btn btn-outline-primary" data-bs-target="#filterCollapse" data-bs-toggle="collapse">
+                <i class="bi bi-funnel"></i>
                 فیلتر
             </button>
             <div class="flex-grow-1 mx-4 mt-2">
@@ -82,14 +83,19 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-column  justify-content-start mt-4 ">
-            @if (empty($tasks))
-                <p class="card-title">وظیفه ای یافت نشد !!</p>
-            @else
-                @foreach($tasks as $task)
-                    <livewire:components.task-item :task="$task" :key="'task-'.$task->id"/>
-                @endforeach
+        <div class="d-flex flex-column px-2  justify-content-start mt-4 ">
+            @if($tasks->isEmpty())
+                <div class="card bg-transparent border-danger">
+                    <div class="card-body">
+                        <p class="card-title">
+                            وظیفه ای یافت نشد !
+                        </p>
+                    </div>
+                </div>
             @endif
+            @foreach($tasks as $task)
+                <livewire:components.task-item :task="$task" :key="'task-'.$task->id"/>
+            @endforeach
 
         </div>
 

@@ -81,7 +81,13 @@
                         <div class="d-flex m-2 flex-column justify-content-center align-items-center">
                             <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px"
                                  height="40px">
-                            <p class="small">{{$user->name}}</p>
+                            <p class="small">
+                                @if ($user->id == $project->admin_id)
+
+                                    <i class="bi bi-check-circle text-success"></i>
+                                @endif
+                                {{$user->name}}
+                            </p>
                         </div>
                     @endforeach
                 </div>
@@ -107,7 +113,9 @@
                 </button>
             @endcan
 
-            <button class="btn btn-outline-primary" data-bs-target="#filterCollapse" data-bs-toggle="collapse">فیلتر
+            <button class="btn btn-outline-primary" data-bs-target="#filterCollapse" data-bs-toggle="collapse">
+                <i class="bi bi-funnel"></i>
+                فیلتر
             </button>
             <div class="flex-grow-1 mx-4 mt-2">
                 <div class="collapse" id="filterCollapse">
@@ -152,7 +160,16 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex flex-column  justify-content-start mt-4 " style="overflow-y: scroll; height: 540px">
+        <div class="d-flex flex-column px-2  justify-content-start mt-4 " style="overflow-y: scroll; height: 540px">
+            @if($tasks->isEmpty())
+                <div class="card bg-transparent border-danger">
+                    <div class="card-body">
+                        <p class="card-title">
+                            وظیفه ای یافت نشد !
+                        </p>
+                    </div>
+                </div>
+            @endif
             @foreach($tasks as $task)
                 <livewire:components.task-item :task="$task" :key="'task-'.$task->id"/>
             @endforeach
@@ -184,8 +201,9 @@
                             @foreach($users as $user)
                                 <label for="">
                                     <input type="checkbox" name="users[]"
+                                           {{$user->id == $project->admin_id ? 'disabled' : ''}}
                                            {{$project->users->contains($user) ? 'checked':''}} value="{{$user->id}}"
-                                           class="form-check-input form-check-inline">
+                                           class="form-check-input form-check-inline {{$user->id == $project->admin_id ? 'disabled' : ''}}">
                                     {{$user->name}}
                                 </label>
                             @endforeach

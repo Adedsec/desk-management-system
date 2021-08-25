@@ -28,6 +28,8 @@ class EditListForm extends Component
 
             $this->list->save();
             $this->emit('listAdded');
+            $this->emit('refreshBoard');
+            $this->dispatchBrowserEvent('close-modal', ['id' => 'editListModal' . $this->list->id ?? 0]);
 
         } catch (\Exception $exception) {
             session()->flash('error', 'مشکلی در انجام عملیات رخ داده است !');

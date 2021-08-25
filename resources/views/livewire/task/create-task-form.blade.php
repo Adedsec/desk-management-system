@@ -9,7 +9,7 @@
     <div class="d-flex mt-2 w-50">
         <select name="project" id="project" wire:model.defer="project" title="انتخاب پروژه"
                 class="form-select form-control">
-            @foreach($desk->projects as $project)
+            @foreach($desk->projects()->whereHas('users',function ($q){ $q->where('user_id',\Illuminate\Support\Facades\Auth::user()->id); })->get() as $project)
                 <option value="{{$project->id}}">{{$project->name}}</option>
             @endforeach
         </select>

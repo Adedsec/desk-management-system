@@ -87,8 +87,8 @@ class ProjectController extends Controller
     public function updateUsers(Request $request, Project $project)
     {
         try {
-
             $project->users()->sync($request->get('users'));
+            $project->users()->syncWithoutDetaching($project->admin_id);
             return back()->with('success', 'عملیات با موفقیت انجام شد');
         } catch (\Exception $exception) {
             return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');

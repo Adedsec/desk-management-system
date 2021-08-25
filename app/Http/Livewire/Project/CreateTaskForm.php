@@ -48,6 +48,11 @@ class CreateTaskForm extends Component
         $this->checklist = $value;
     }
 
+    public function persian_date()
+    {
+        dd('date');
+    }
+
 
     public function submit()
     {

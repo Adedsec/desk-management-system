@@ -176,7 +176,7 @@ class DeskController extends Controller
 
             }
         } catch (\Exception $exception) {
-
+            //dd($exception);
             return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
 

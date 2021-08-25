@@ -14,7 +14,7 @@ class CreateTaskForm extends Component
     use WithFileUploads;
 
     public $list;
-    public $project = 1;
+    public $project;
     public $desk;
 
     public $title;
@@ -42,6 +42,9 @@ class CreateTaskForm extends Component
     public function mount()
     {
         $this->desk = Auth::user()->activeDesk;
+        $this->project = $this->desk->projects()->whereHas('users', function ($q) {
+            $q->where('user_id', Auth::user()->id);
+        })->first();
     }
 
     public function checklist($value)
@@ -61,6 +64,8 @@ class CreateTaskForm extends Component
         $this->validate();
 
         try {
+
+            dd($this->project);
 
             $this->project = Project::find($this->project);
 
