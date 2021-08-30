@@ -1,11 +1,14 @@
 @component('mail::message')
-    # verify your email
+    # تایید ایمیل
 
-    Dear {{$name}}
+    {{$name}}
+    عزیز
+
+    لطفا با کلیک بر روی لینک زیر ایمیل خود را تایید کنید
     @component('mail::button', ['url' => $link])
-        Verify Email
+        تایید ایمیل
     @endcomponent
 
-    Thanks,<br>
-    {{ config('app.name') }}
+    باتشکر,
+    سیستم مدیریت پروژه میزکار
 @endcomponent

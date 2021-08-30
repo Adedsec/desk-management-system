@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13e1a911d24efc82e2407c8a585d24ab",
+    "content-hash": "3f239ea2075364ed6e134450b4e01f20",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,81 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "beyondcode/laravel-er-diagram-generator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ali-alharthi/laravel-er-diagram-generator.git",
+                "reference": "b993b5d60a946f54e58f81f24a0dcd25d3f61fa6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ali-alharthi/laravel-er-diagram-generator/zipball/b993b5d60a946f54e58f81f24a0dcd25d3f61fa6",
+                "reference": "b993b5d60a946f54e58f81f24a0dcd25d3f61fa6",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^3.0",
+                "nikic/php-parser": "^4.0",
+                "php": "^7.3 || ^8.0",
+                "phpdocumentor/graphviz": "^2.0"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^8.3|^9.0",
+                "spatie/phpunit-snapshot-assertions": "^4.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "BeyondCode\\ErdGenerator\\ErdGeneratorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BeyondCode\\ErdGenerator\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "BeyondCode\\ErdGenerator\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html coverage"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcel Pociot",
+                    "email": "marcel@beyondco.de",
+                    "homepage": "https://beyondcode.de",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Generate ER diagrams from your Laravel models.",
+            "homepage": "https://github.com/beyondcode/laravel-er-diagram-generator",
+            "keywords": [
+                "beyondcode",
+                "laravel-er-diagram-generator"
+            ],
+            "support": {
+                "source": "https://github.com/ali-alharthi/laravel-er-diagram-generator/tree/master"
+            },
+            "time": "2021-02-16T07:58:49+00:00"
         },
         {
             "name": "brick/math",
@@ -3122,6 +3197,58 @@
                 "source": "https://github.com/opis/closure/tree/3.6.2"
             },
             "time": "2021-04-09T13:42:10+00:00"
+        },
+        {
+            "name": "phpdocumentor/graphviz",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/GraphViz.git",
+                "reference": "929e97b4ab6765fc4eb2f944b091a4a02807ee5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/GraphViz/zipball/929e97b4ab6765fc4eb2f944b091a4a02807ee5d",
+                "reference": "929e97b4ab6765fc4eb2f944b091a4a02807ee5d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || 8.0.*"
+            },
+            "require-dev": {
+                "ext-simplexml": "*",
+                "mockery/mockery": "^1.2",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^8.2 || ^9.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz",
+                    "phpDocumentor\\GraphViz\\PHPStan\\": "./src/phpDocumentor/PHPStan"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
+            ],
+            "description": "Wrapper for Graphviz",
+            "support": {
+                "issues": "https://github.com/phpDocumentor/GraphViz/issues",
+                "source": "https://github.com/phpDocumentor/GraphViz/tree/2.0.0"
+            },
+            "time": "2021-02-02T20:48:43+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -8882,7 +9009,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "beyondcode/laravel-er-diagram-generator": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

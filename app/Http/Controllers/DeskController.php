@@ -139,6 +139,8 @@ class DeskController extends Controller
                 //send JoinRequest
                 $user = User::where('email', $email)->first();
 
+                //check if user is in desk or not
+
                 //check if Request not sent before
                 if (!(JoinRequest::all()->where('desk_id', $desk->id)->where('user_id', $user->id)->isEmpty()))
                     return back()->with('error', 'درخواست قبلا ارسال شده است');

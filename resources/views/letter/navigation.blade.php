@@ -8,6 +8,10 @@
            href="{{route('letters.sent')}}">صندوق خروجی</a>
     </li>
     <li class="nav-item ">
+        <a class="nav-link  {{ \Illuminate\Support\Facades\Route::currentRouteName() === 'letters.paraph.page' ? 'active' : ''}}  text-danger"
+           href="{{route('letters.paraph.page')}}">پاراف ها</a>
+    </li>
+    <li class="nav-item ">
         <a class="nav-link  {{ \Illuminate\Support\Facades\Route::currentRouteName() === 'letters.archive' ? 'active' : ''}}  text-danger"
            href="{{route('letters.archive')}}">آرشیو نامه ها</a>
     </li>

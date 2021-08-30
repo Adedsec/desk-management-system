@@ -21,7 +21,10 @@
                         @foreach(\Illuminate\Support\Facades\Auth::user()->desks as $desk)
                             @if (\Illuminate\Support\Facades\Auth::user()->activeDesk->id ===$desk->id)
                                 <li>
-                                    <button href="#" disabled class="dropdown-item">{{$desk->name}}</button>
+                                    <button href="#" disabled class="dropdown-item">
+                                        <i class="bi bi-check-circle text-success"></i>
+                                        {{$desk->name}}
+                                    </button>
                                 </li>
                             @else
                                 <li><a href="{{route('desks.select',$desk->id)}}"

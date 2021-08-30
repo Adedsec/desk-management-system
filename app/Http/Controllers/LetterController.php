@@ -26,11 +26,17 @@ class LetterController extends Controller
         return view('letter.sent');
     }
 
+    public function paraph()
+    {
+        return view('letter.paraph');
+    }
+
     //show one Letter
     public function show(Letter $letter)
     {
         $letter->load(['users', 'tags']);
-        return view('letter.show', compact('letter'));
+        $paraphs = $letter->getUserParaphs(Auth::user());
+        return view('letter.show', compact('letter', 'paraphs'));
     }
 
     //show archived letters page --->shows live wire component : Letter.ArchivePage
@@ -52,5 +58,24 @@ class LetterController extends Controller
             return back()->with('error', 'مشکلی در انجام عملیات رخ داده است');
         }
 
+    }
+
+    public function addParaph(Request $request, Letter $letter)
+    {
+        $request->validate([
+            'body' => ['required', 'string'],
+            'users' => ['nullable', 'array']
+        ]);
+
+        $paraph = $letter->paraphs()->create([
+            'body' => $request->get('body'),
+            'user_id' => Auth::user()->id
+        ]);
+
+        $paraph->users()->attach($request->get('users'));
+
+        $paraph->save();
+
+        return back()->with('success', 'عملیات با موفقیت انجام شد ');
     }
 }

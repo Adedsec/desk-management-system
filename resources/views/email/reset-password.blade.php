@@ -1,12 +1,12 @@
 @component('mail::message')
     # بازیابی رمزعبور
 
-    The body of your message.
+    برای ایجاد رمز عبور جدید روی دکمه زیر کلیک کنید !
 
     @component('mail::button', ['url' => $link])
         بازیابی
     @endcomponent
 
-    Thanks,<br>
-    {{ config('app.name') }}
+    با تشکر,
+    سیستم مدیریت پروژه میزکار
 @endcomponent

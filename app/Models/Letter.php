@@ -33,6 +33,12 @@ class Letter extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+
+    public function paraphs()
+    {
+        return $this->hasMany(Paraph::class);
+    }
+
     public function summary()
     {
         $body = $this->body;
@@ -63,6 +69,21 @@ class Letter extends Model
         } else {
             $user->archivedLetters()->attach($this);
         }
+    }
+
+    public function getUserParaphs(User $user)
+    {
+
+        return $this->paraphs()->where(function ($query) use ($user) {
+            $query->whereHas('users', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })->orWhere('user_id', $user->id);
+        })->get();
+    }
+
+    public function userHasParaph(User $user)
+    {
+        return $this->getUserParaphs($user)->count() == 0 ? false : true;
     }
 
 
