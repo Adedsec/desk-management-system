@@ -79,8 +79,8 @@
                 <div class="d-flex justify-content-start align-items-center flex-wrap">
                     @foreach($project->users as $user)
                         <div class="d-flex m-2 flex-column justify-content-center align-items-center">
-                            <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px"
-                                 height="40px">
+                            {{--                            <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px"--}}
+                            {{--                                 height="40px">--}}
                             <p class="small">
                                 @if ($user->id == $project->admin_id)
 

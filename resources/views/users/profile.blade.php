@@ -12,8 +12,8 @@
 
                 <div class="row">
                     <div class="col-md-2">
-                        <img src="{{$user->getAvatar()}}" class="rounded-circle" width="120px" height="120px"
-                             alt="profile picture">
+                        {{--                        <img src="{{$user->getAvatar()}}" class="rounded-circle" width="120px" height="120px"--}}
+                        {{--                             alt="profile picture">--}}
                     </div>
 
                     <div class="col-md-10">

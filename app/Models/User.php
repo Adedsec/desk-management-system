@@ -114,7 +114,7 @@ class User extends Authenticatable
     public function getAvatar()
     {
         return is_null($this->avatar)
-            ? Avatar::create($this->email)->setFont(asset('fonts/Vazir-Bold.ttf'))
+            ? Avatar::create($this->email)->toBase64()->setFont(asset('fonts/Vazir-Bold.ttf'))
             : $this->avatar;
     }
 }

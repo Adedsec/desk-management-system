@@ -32,9 +32,9 @@
                             <div
                                 class="card-body rounded-5 d-flex flex-column justify-content-start align-items-center">
                                 <div class="mb-3">
-                                    <img src="{{$project->getAvatar()}}" width="100px" height="100px"
-                                         class="rounded-circle"
-                                         alt="">
+                                    {{--                                    <img src="{{$project->getAvatar()}}" width="100px" height="100px"--}}
+                                    {{--                                         class="rounded-circle"--}}
+                                    {{--                                         alt="">--}}
                                 </div>
                                 <h5 class="text-center m-0">{{$project->name}}</h5>
 

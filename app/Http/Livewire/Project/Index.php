@@ -42,6 +42,6 @@ class Index extends Component
     public function render()
     {
         return view('livewire.project.index')->extends('layouts.app')
-            ->section('content');;
+            ->section('content');
     }
 }

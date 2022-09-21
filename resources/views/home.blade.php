@@ -81,8 +81,8 @@
                             <div class="d-flex mt-4 justify-content-start align-items-center">
                                 @foreach(\Illuminate\Support\Facades\Auth::user()->activeDesk->users as $user)
                                     <div class="m-2 d-flex flex-column justify-content-center align-items-center">
-                                        <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px"
-                                             height="40px">
+                                        {{--                                        <img src="{{$user->getAvatar()}}" alt="" class="rounded-circle" width="40px"--}}
+                                        {{--                                             height="40px">--}}
                                         <p>{{$user->name}}</p>
                                     </div>
                                 @endforeach
@@ -100,10 +100,10 @@
                 <div class="card-body">
 
                     <div class="d-flex flex-column justify-content-start align-items-center">
-                        <img src="{{\Illuminate\Support\Facades\Auth::user()->getAvatar()}}"
-                             alt="{{\Illuminate\Support\Facades\Auth::user()->name}}"
-                             class="rounded-circle m-2 shadow"
-                             width="200px" height="200px">
+                        {{--                        <img src="{{\Illuminate\Support\Facades\Auth::user()->getAvatar()}}"--}}
+                        {{--                             alt="{{\Illuminate\Support\Facades\Auth::user()->name}}"--}}
+                        {{--                             class="rounded-circle m-2 shadow"--}}
+                        {{--                             width="200px" height="200px">--}}
                         <h5 class="card-title mt-4">{{\Illuminate\Support\Facades\Auth::user()->name}}</h5>
                         <hr>
                         <p class="card-title">
@@ -127,10 +127,10 @@
                                             <div class="accordion-body bg-white">
                                                 <div class="d-flex justify-content-start align-items-center">
                                                     @foreach($desk->users as $user)
-                                                        <img src="{{$user->getAvatar()}}" title="{{$user->name}}"
-                                                             alt=""
-                                                             width="40px"
-                                                             height="40px" class="rounded-circle">
+                                                        {{--                                                        <img src="{{$user->getAvatar()}}" title="{{$user->name}}"--}}
+                                                        {{--                                                             alt=""--}}
+                                                        {{--                                                             width="40px"--}}
+                                                        {{--                                                             height="40px" class="rounded-circle">--}}
                                                     @endforeach
                                                 </div>
                                             </div>
