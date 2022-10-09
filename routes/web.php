@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('in', function () {
 
 });
+
 Route::get('/', function () {
     return redirect('/dashboard');
 })->name('welcome');
@@ -34,6 +35,7 @@ Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])-
 
 //Authentication Routes
 Auth::routes();
+
 
 //User Profile
 Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
