@@ -54,9 +54,8 @@ class UserLoginTest extends TestCase
             'password' => 'password',
             'remeber_me' => true
         ]);
-        $response->dumpSession('user');
 
-        $response->assertRedirect(route('home'));
+        $this->assertAuthenticatedAs($user);
         $user->delete();
     }
 
@@ -76,9 +75,10 @@ class UserLoginTest extends TestCase
         $response = $this->post('/login', [
             'email' => $username,
             'password' => 'password1',
-            'remeber_me' => true
+            'remeber_me' => $remember_me
         ]);
         $response->assertSessionHas('errors');
+        $this->assertGuest();
         $user->delete();
     }
 }

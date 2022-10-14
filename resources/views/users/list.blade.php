@@ -33,7 +33,7 @@
                             @if ($user->id != \Illuminate\Support\Facades\Auth::user()->activeDesk->admin_id)
 
                                 <a class="btn btn-outline-danger "
-                                   href="{{route('desk.user.delete',[\Illuminate\Support\Facades\Auth::user()->activeDesk->id,$user->id])}}">
+                                   href="{{route('desks.user.delete',[\Illuminate\Support\Facades\Auth::user()->activeDesk->id,$user->id])}}">
                                     حذف
                                 </a>
 
